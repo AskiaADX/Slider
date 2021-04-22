@@ -563,7 +563,12 @@
             });
 		}
 		// hide handle
-        if ( hideHandle && !(roundToStep($input.val()) >= 0) ) $('.noUi-handle').hide();
+
+					$('.noUi-handle').each(function() {
+						if ( hideHandle & ($(this)[0]).textContent == "" && !(roundToStep($input.val()) >= 0) )
+							$(this).hide();
+					});
+
 
         adjustLabelWidth('.sliderLabel');
         adjustLabelHeight('.sliderLabel');
