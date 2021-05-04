@@ -72,6 +72,22 @@ For j = 1 To ar.Count
     {% IF CurrentADC.PropValue("sliderOrientation") = "horizontal" Then %}
 		<input type="hidden" id="{%= inputName %}" name="{%= inputName %}" value="{%= CurrentQuestion.Iteration(chr[m].Index).inputValue() %}" />
 
+		{% IF ar[j].isOpen Then %}
+		<div class="">
+			<label class="caption">
+						{% IF CurrentADC.PropValue("imageAlign") = "left" Then %}
+						{% IF image <> "" Then %} <img src="{%= image %}" alt="{%= caption %}"/> {% EndIF %}
+						{% EndIF %}
+						{%:= caption %}
+						{% IF CurrentADC.PropValue("imageAlign") = "right" Then %}
+						{% IF image <> "" Then %} <img src="{%= image %}" alt="{%= caption %}"/> {% EndIF %}
+						{% EndIF %}
+			</label>
+
+			<input type="text" aria-label="Other" class="otherText" id="askia-input{%= ar[j].OpenQuestion.InputCode %}"
+			name="{%= ar[j].OpenQuestion.InputName() %}" value="{%= ar[j].OpenQuestion.inputValue() %}" autocomplete="off">
+		{% Else %}
+
 		<div class="sliderContainer" data-iteration="{%= dataIteration %}">
 
 					{% IF (captionPlacement = "top") Then %}
@@ -277,7 +293,7 @@ For j = 1 To ar.Count
 							{% EndIF %}
 					</label>
 				{% EndIF %}
-
+			{% EndIF %}
     </div>
 
 {% Else %}
@@ -345,6 +361,22 @@ For j = 1 To ar.Count
 	<input type="hidden" id="{%= inputName %}" name="{%= inputName %}" value="{%= CurrentQuestion.Iteration(ar[j].Index).inputValue() %}" />
 
     {% IF CurrentADC.PropValue("sliderOrientation") = "horizontal" Then %}
+
+		{% IF ar[j].isOpen Then %}
+		<div class="">
+			<label class="caption">
+						{% IF CurrentADC.PropValue("imageAlign") = "left" Then %}
+						{% IF image <> "" Then %} <img src="{%= image %}" alt="{%= caption %}"/> {% EndIF %}
+						{% EndIF %}
+						{%:= caption %}
+						{% IF CurrentADC.PropValue("imageAlign") = "right" Then %}
+						{% IF image <> "" Then %} <img src="{%= image %}" alt="{%= caption %}"/> {% EndIF %}
+						{% EndIF %}
+			</label>
+
+			<input type="text" aria-label="Other" class="otherText" id="askia-input{%= ar[j].OpenQuestion.InputCode %}"
+			name="{%= ar[j].OpenQuestion.InputName() %}" value="{%= ar[j].OpenQuestion.inputValue() %}" autocomplete="off">
+		{% Else %}
 
         <div class="sliderContainer" data-iteration="{%= dataIteration2 %}">
 
@@ -520,6 +552,7 @@ For j = 1 To ar.Count
 							{% EndIF %}
 					</label>
 				{% EndIF %}
+			{% EndIF %}
 
     </div>
 

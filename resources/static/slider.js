@@ -631,56 +631,62 @@
 		// enable keyboard interaction
 		$container.keydown(function( e ) {
 
-            e.preventDefault();
+			if (!($(e.target).hasClass('otherText'))) {
 
-			// if focus found
-			if ( $('.focused').size() > 0 && $container.find('.focused').length > 0 ) {
+				e.preventDefault();
 
-				var element = $('.focused').parents('.controlContainer'),
-					iteration = isInLoop ? $('.focused').parents('.sliderContainer').data('iteration') : 0,
-					slider = $('.focused').parents('.controlContainer').find('.noUiSlider').eq(iteration),
-					value = roundToStep( slider.val() ),
-					$input = items[iteration].element;
+				// if focus found
+				if ( $('.focused').size() > 0 && $container.find('.focused').length > 0 ) {
+
+					var element = $('.focused').parents('.controlContainer'),
+						iteration = isInLoop ? $('.focused').parents('.sliderContainer').data('iteration') : 0,
+						slider = $('.focused').parents('.controlContainer').find('.noUiSlider').eq(iteration),
+						value = roundToStep( slider.val() ),
+						$input = items[iteration].element;
 
 
-				switch ( e.which ) {
-					case 38:
-						if ( value < options.maxValue ) {
-							value = (decimalPlaces > 0 ? parseFloat(value) + parseFloat(unitStep) : value + parseFloat(unitStep));
-						}
-						slider.val( (decimalPlaces > 0 ? parseFloat(value).toFixed(decimalPlaces) : value ) );
-						break;
-					case 40:
-						if ( value > options.minValue ) {
-							value -= (decimalPlaces > 0 ? parseFloat(unitStep) : unitStep);
-						}
-						slider.val( (decimalPlaces > 0 ? parseFloat(value).toFixed(decimalPlaces) : value ) );
-						break;
+
+					switch ( e.which ) {
+						case 38:
+							if ( value < options.maxValue ) {
+								value = (decimalPlaces > 0 ? parseFloat(value) + parseFloat(unitStep) : value + parseFloat(unitStep));
+							}
+							slider.val( (decimalPlaces > 0 ? parseFloat(value).toFixed(decimalPlaces) : value ) );
+							break;
+						case 40:
+							if ( value > options.minValue ) {
+								value -= (decimalPlaces > 0 ? parseFloat(unitStep) : unitStep);
+							}
+							slider.val( (decimalPlaces > 0 ? parseFloat(value).toFixed(decimalPlaces) : value ) );
+							break;
+					}
+
+					//var handleValue = parseInt(value);
+					var handleText,
+					handleValue = (decimalPlaces > 0 ? parseFloat(value).toFixed(decimalPlaces) : value );
+
+					if (showValue) {
+						element.find('.handleValue').eq(iteration).css('padding-top', '');
+						element.find('.noUi-handle').eq(iteration).html( "<div class='handleValue'>" + leftHandleText + "" + (handleText = isSingle ? (showResponseCaptions ? captionsArray[i] : handleValue) : handleValue) + "" + rightHandleText + "</div>" );
+						var topAdj = Math.ceil( ( element.find('.noUi-handle').eq(iteration).height() - element.find('.handleValue').eq(iteration).outerHeight() ) * 0.5 );
+						element.find('.handleValue').eq(iteration).css('padding-top', topAdj + 'px');
+					}
+
+					if ( isSingle && !isInLoop ) $input.val( items[ parseInt( value ) - 1  ].value );
+					else if ( isSingle && isInLoop ) {
+						if ( e.which == 38 ) $input.val( valuesArray[ (value - parseInt(options.minValue) ) ] );
+						else if ( e.which == 40 ) $input.val( valuesArray[ (value - parseInt(options.minValue)) ] );
+					} else $input.val( roundToStep( value ) );
+									if (window.askia
+											&& window.arrLiveRoutingShortcut
+											&& window.arrLiveRoutingShortcut.length > 0
+											&& window.arrLiveRoutingShortcut.indexOf(options.currentQuestion) >= 0) {
+											askia.triggerAnswer();
+									}
 				}
 
-				//var handleValue = parseInt(value);
-				var handleText,
-				handleValue = (decimalPlaces > 0 ? parseFloat(value).toFixed(decimalPlaces) : value );
-
-				if (showValue) {
-					element.find('.handleValue').eq(iteration).css('padding-top', '');
-					element.find('.noUi-handle').eq(iteration).html( "<div class='handleValue'>" + leftHandleText + "" + (handleText = isSingle ? (showResponseCaptions ? captionsArray[i] : handleValue) : handleValue) + "" + rightHandleText + "</div>" );
-					var topAdj = Math.ceil( ( element.find('.noUi-handle').eq(iteration).height() - element.find('.handleValue').eq(iteration).outerHeight() ) * 0.5 );
-					element.find('.handleValue').eq(iteration).css('padding-top', topAdj + 'px');
-				}
-
-				if ( isSingle && !isInLoop ) $input.val( items[ parseInt( value ) - 1  ].value );
-				else if ( isSingle && isInLoop ) {
-					if ( e.which == 38 ) $input.val( valuesArray[ (value - parseInt(options.minValue) ) ] );
-					else if ( e.which == 40 ) $input.val( valuesArray[ (value - parseInt(options.minValue)) ] );
-				} else $input.val( roundToStep( value ) );
-                if (window.askia
-                    && window.arrLiveRoutingShortcut
-                    && window.arrLiveRoutingShortcut.length > 0
-                    && window.arrLiveRoutingShortcut.indexOf(options.currentQuestion) >= 0) {
-                    askia.triggerAnswer();
-                }
 			}
+
 		});
 
 		function selectDK() {

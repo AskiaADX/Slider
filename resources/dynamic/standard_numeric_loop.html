@@ -44,7 +44,24 @@ window.addEventListener("load", function() {
 
     {% IF CurrentADC.PropValue("sliderOrientation") = "horizontal" Then %}
 
-        <div class="sliderContainer" data-iteration="{%= j-1 %}">
+
+			{% IF ar[j].isOpen Then %}
+			<div class="">
+				<label class="caption">
+							{% IF CurrentADC.PropValue("imageAlign") = "left" Then %}
+							{% IF image <> "" Then %} <img src="{%= image %}" alt="{%= caption %}"/> {% EndIF %}
+							{% EndIF %}
+							{%:= caption %}
+							{% IF CurrentADC.PropValue("imageAlign") = "right" Then %}
+							{% IF image <> "" Then %} <img src="{%= image %}" alt="{%= caption %}"/> {% EndIF %}
+							{% EndIF %}
+				</label>
+
+				<input type="text" aria-label="Other" class="otherText" id="askia-input{%= ar[j].OpenQuestion.InputCode %}"
+				name="{%= ar[j].OpenQuestion.InputName() %}" value="{%= ar[j].OpenQuestion.inputValue() %}" autocomplete="off">
+			{% Else %}
+
+			<div class="sliderContainer" data-iteration="{%= j-1 %}">
         	<label class="caption">
                 {% IF CurrentADC.PropValue("imageAlign") = "left" Then %}
                 {% IF image <> "" Then %} <img src="{%= image %}" alt="{%= caption %}"/> {% EndIF %}
@@ -177,7 +194,7 @@ window.addEventListener("load", function() {
             {% EndIF %}
             <tr valign="middle" class="sliderDK">
             	<td colspan="{%= labelCount + 1 %}" style="padding-top:10px;" align="{%= CurrentADC.PropValue("dkPosition") %}"><div class="dk" data-value="-1">{%:= CurrentADC.PropValue("dkText")%}</div></td>
-			</tr>
+						</tr>
 
         {% EndIF %}
 
@@ -186,6 +203,8 @@ window.addEventListener("load", function() {
 				{% IF interconnection Then %}
 				<label class="freezeLabel"><input class="freezeBox" type="checkbox" id="freeze{%= adcId %}_{%= j %}" onchange="dim{%= adcId %}(this.id)" />{%=freezeBoxLabel%}</label>
 				{% EndIF %}
+
+			{% EndIF %}
 
     </div>
 
@@ -222,7 +241,7 @@ window.addEventListener("load", function() {
             <tr valign="middle">
             	<td style="padding-top:10px;">
                     <div class="dk" data-value="-1">{%:= CurrentADC.PropValue("dkText")%}</div>
-                </td>
+              </td>
             </tr>
 
         </table>
