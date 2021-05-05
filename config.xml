@@ -8,7 +8,7 @@
     <name>Slider</name>
     <guid>75419bde-c158-45fe-a9b7-68cd4c6bb9b0</guid>
     <version>4.2.0</version>
-    <date>2021-05-04</date>
+    <date>2021-05-05</date>
     <description><![CDATA[]]></description>
     <company>Askia</company>
     <author><![CDATA[Paul Ferreira <paulf@askia.com>,	  Thibault Piriou <thibault@askia.com>	  Jérôme Duparc <jeromed@askia.com>	  Stephen Bronnec <stephen@askia.com>   Prabath Gamage <prabath@askia.com>]]></author>
@@ -18,7 +18,7 @@
       <category>General</category>
     </categories>
     <constraints>
-      <constraint on="questions" numeric="true" single="true" chapter="false" date="false" multiple="false" open="false" requireParentLoop="false" requireLoopDepth="0" manageHeader="true"/>
+      <constraint on="questions" numeric="true" single="true" chapter="false" date="false" multiple="false" open="false" requireParentLoop="false" requireLoopDepth="0" manageHeader="true" manageSemiOpen="true"/>
       <constraint on="controls" responseblock="true" textbox="true" checkbox="false" label="false" listbox="false" radiobutton="false" />
       <constraint on="responses" max="*" min="*" />
     </constraints>
