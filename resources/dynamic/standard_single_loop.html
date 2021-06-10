@@ -6,7 +6,7 @@ Dim inputValue
 Dim caption
 Dim image
 Dim j
-Dim dkSingle = CurrentADC.PropValue("dkSingle")
+Dim dkEnabled = CurrentADC.PropValue("dkEnabled")
 Dim labelCount = 0
 Dim leftLabelArray
 Dim rightLabelArray
@@ -164,7 +164,7 @@ For j = 1 To ar.Count
                     <td colspan="{%= labelCount + 1 %}" align="left"><div class="noUiSlider noUi-extended"></div></td>
                 </tr>
 
-                 {% IF dkSingle = "1" Then %}
+                 {% IF dkEnabled = "1" Then %}
                     <tr valign="middle" class="sliderDK">
                         <td colspan="{%= labelCount + 1 %}" style="padding-top:10px;" align="{%= CurrentADC.PropValue("dkPosition") %}" class="sliderDK">
 														{% IF showResponseCaptions = "1" Then %}
@@ -261,7 +261,7 @@ For j = 1 To ar.Count
                     {% EndIF %}
                 </tr>
             {% EndIF %}
-            {% IF dkSingle = "1" Then %}
+            {% IF dkEnabled = "1" Then %}
                 <tr valign="middle" class="sliderDK">
                     <td colspan="{%= labelCount + 1 %}" style="padding-top:10px;" align="{%= CurrentADC.PropValue("dkPosition") %}" class="sliderDK">
 												{% IF showResponseCaptions = "1" Then %}
@@ -326,7 +326,7 @@ For j = 1 To ar.Count
                 </td>
             </tr>
             {% EndIF %}
-            {% IF dkSingle = "1" Then %}
+            {% IF dkEnabled = "1" Then %}
                 <tr valign="middle" class="sliderDK">
                     <td style="padding-top:10px;">
 												{% IF showResponseCaptions = "1" Then %}
@@ -426,7 +426,7 @@ For j = 1 To ar.Count
                     <td colspan="{%= labelCount + 1 %}" align="left"><div class="noUiSlider noUi-extended"></div></td>
                 </tr>
 
-                 {% IF dkSingle = "1" Then %}
+                 {% IF dkEnabled = "1" Then %}
                     <tr valign="middle" class="sliderDK">
                         <td colspan="{%= labelCount + 1 %}" style="padding-top:10px;" align="{%= CurrentADC.PropValue("dkPosition") %}" class="sliderDK">
 														{% IF showResponseCaptions = "1" Then %}
@@ -523,7 +523,7 @@ For j = 1 To ar.Count
                     {% EndIF %}
                 </tr>
             {% EndIF %}
-            {% IF dkSingle = "1" Then %}
+            {% IF dkEnabled = "1" Then %}
                 <tr valign="middle" class="sliderDK colored">
                     <td colspan="{%= labelCount + 1 %}" style="padding-top:10px;" align="{%= CurrentADC.PropValue("dkPosition") %}" class="sliderDK">
 												{% IF showResponseCaptions = "1" Then %}
@@ -586,7 +586,7 @@ For j = 1 To ar.Count
                 </td>
             </tr>
             {% EndIF %}
-            {% IF dkSingle = "1" Then %}
+            {% IF dkEnabled = "1" Then %}
                 <tr valign="middle" class="sliderDK">
                     <td style="padding-top:10px;">
 												{% IF showResponseCaptions = "1" Then %}

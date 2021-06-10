@@ -23,7 +23,7 @@ $(window).load(function() {
 		handleText : '{%:= CurrentADC.PropValue("handleText") %}',
 		handleTextPosition : '{%:= CurrentADC.PropValue("handleTextPosition") %}',
 		isSingle : {%= (CurrentQuestion.Type = "single") %},
-		dkSingle: {%= (CurrentADC.PropValue("dkSingle") = "1") %},
+		dkEnabled: {%= (CurrentADC.PropValue("dkEnabled") = "1") %},
 		dkOptions: '{%:= CurrentADC.PropValue("dkOptions") %}',
 		useHandleImage : {%= (CurrentADC.PropValue("useHandleImage") = "1") %},
 		handleImagePath : '{%= CurrentADC.PropValue("handleImagePath") %}',

@@ -2,7 +2,7 @@
 Dim inputName = CurrentQuestion.InputName()
 Dim inputValue = CurrentQuestion.InputValue()
 Dim labelCount = 0
-Dim dkSingle = CurrentADC.PropValue("dkSingle")
+Dim dkEnabled = CurrentADC.PropValue("dkEnabled")
 Dim ar = CurrentQuestion.AvailableResponses
 IF CurrentADC.PropValue("rightLabelText") <> "" Then
 	labelCount = labelCount + 1
@@ -48,7 +48,7 @@ Dim i
                 <td colspan="{%= labelCount + 1 %}" align="left"><div class="noUiSlider noUi-extended"></div></td>
             </tr>
 
-            {% IF dkSingle = "1" Then %}
+            {% IF dkEnabled = "1" Then %}
                 <tr valign="middle" class="sliderDK">
                     <td colspan="{%= labelCount + 1 %}" style="padding-top:10px;" align="{%= CurrentADC.PropValue("dkPosition") %}" class="sliderDK">
 											{% For i = 1 To optArr.Count %}
@@ -121,7 +121,7 @@ Dim i
                     {% EndIF %}
                 </tr>
             {% EndIF %}
-            {% IF dkSingle = "1" Then %}
+            {% IF dkEnabled = "1" Then %}
                 <tr valign="middle" class="sliderDK">
                     <td colspan="{%= labelCount + 1 %}" style="padding-top:10px;" align="{%= CurrentADC.PropValue("dkPosition") %}" class="sliderDK">
 											{% For i = 1 To optArr.Count %}
@@ -161,7 +161,7 @@ Dim i
                 </td>
             </tr>
             {% EndIF %}
-            {% IF dkSingle = "1" Then %}
+            {% IF dkEnabled = "1" Then %}
                 <tr valign="middle" class="sliderDK">
                     <td style="padding-top:10px;">
 											{% For i = 1 To optArr.Count %}

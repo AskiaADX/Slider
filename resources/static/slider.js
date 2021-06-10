@@ -24,7 +24,7 @@
 			showValue = Boolean(options.showValue),
 			isSingle = Boolean(options.isSingle),
 			isInLoop = Boolean(options.isInLoop),
-			dkSingle = Boolean(options.dkSingle),
+			dkEnabled = Boolean(options.dkEnabled),
 			dkOptions = options.dkOptions,
 			showResponseCaptions = Boolean(options.showResponseCaptions),
 			useHandleImage = Boolean(options.useHandleImage),
@@ -96,7 +96,7 @@
 			if ( hasDK ) {
 				$('input[name="M' + DKID + ' -1"]').hide().next('span').hide();
 				$('#cpt' + DKID + '_-1').hide();
-			} else if ( !hasDK && !dkSingle ) {
+			} else if ( !hasDK && !dkEnabled ) {
 				$(this).find('.dk').hide();
 			}
 		}
@@ -123,7 +123,7 @@
 
 		}
 
-		if ( isSingle && dkSingle ) {
+		if ( isSingle && dkEnabled ) {
 			options.maxValue = parseInt(options.maxValue) - dkArr.length;
 			for (var i = 0; i < dkArr.length; i++) {
 				$($(this).find('.dk')[i]).attr('data-value',valuesArray[dkArr[i] - 1]);
@@ -172,7 +172,7 @@
 			var $input = items[i].element,
 				handleValue = isSingle ? $.inArray(roundToStep($input.val()), valuesArray) + roundToStep(options.minValue) : parseFloat($input.val());
 
-			if ( isSingle && dkSingle ) {
+			if ( isSingle && dkEnabled ) {
 				if ( ($.inArray(roundToStep($input.val()), valuesArray) + roundToStep(options.minValue)) > options.maxValue ) {
 					handleValue = startPosition;
 				}
@@ -344,7 +344,7 @@
 				});
 			}
 
-			if ( isSingle && dkSingle ) {
+			if ( isSingle && dkEnabled ) {
 				if ( ($.inArray(parseInt($input.val()), valuesArray) + parseInt(options.minValue)) > options.maxValue ) {
 					$(this).find('.sliderContainer').eq(i).find('.noUi-handle').hide();
 					let dkObjs = $(this).find('.sliderContainer').eq(i).find('.dk');
@@ -352,6 +352,13 @@
 						if($(dkObjs[a]).attr('data-value') == $input.val()) $(dkObjs[a]).addClass('selected');
 					}
 					$(this).find('.sliderContainer').eq(i).addClass('selected');
+				}
+			} else if (!isSingle && dkEnabled) {
+				if (parseInt($input.val()) == '-1') {
+					$(this).find('.sliderContainer').eq(i).find('.noUi-handle').hide();
+					let dkObjs = $(this).find('.sliderContainer').eq(i).find('.dk');
+					if($(dkObjs[0]).attr('data-value') == $input.val()) $(dkObjs[0]).addClass('selected');
+					$(this).find('.sliderContainer').eq(i).addClass('selected');					
 				}
 			}
 
