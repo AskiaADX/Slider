@@ -7,8 +7,8 @@
   <info>
     <name>Slider</name>
     <guid>75419bde-c158-45fe-a9b7-68cd4c6bb9b0</guid>
-    <version>4.2.1</version>
-    <date>2021-06-10</date>
+    <version>4.3.0</version>
+    <date>2021-10-12</date>
     <description><![CDATA[]]></description>
     <company>Askia</company>
     <author><![CDATA[Paul Ferreira <paulf@askia.com>,	  Thibault Piriou <thibault@askia.com>	  Jérôme Duparc <jeromed@askia.com>	  Stephen Bronnec <stephen@askia.com>   Prabath Gamage <prabath@askia.com>]]></author>
@@ -43,24 +43,24 @@
       ]]></condition>
       <content fileName="slider.css" type="css" mode="static" position="head" />
       <content fileName="standard.css" type="css" mode="dynamic" position="head" />
-      <content fileName="jquery.nouislider.min.css" type="css" mode="share" position="head" />
-      <content fileName="jquery.nouislider.pips.min.css" type="css" mode="share" position="head" />
-      <content fileName="tippy.css" type="css" mode="share" position="head" />
+      <content fileName="jquery.nouislider.min.css" type="css" mode="static" position="head" />
+      <content fileName="jquery.nouislider.pips.min.css" type="css" mode="static" position="head" />
+      <content fileName="tippy.css" type="css" mode="static" position="head" />
       <content fileName="standard.html" type="html" mode="dynamic" position="placeholder" />
       <content fileName="standard_numeric.html" type="html" mode="dynamic" position="none" />
       <content fileName="standard_single.html" type="html" mode="dynamic" position="none" />
       <content fileName="standard_numeric_loop.html" type="html" mode="dynamic" position="none" />
       <content fileName="standard_single_loop.html" type="html" mode="dynamic" position="none" />
-      <content fileName="es5-shim.min.js" type="javascript" mode="share" position="head">
+      <content fileName="es5-shim.min.js" type="javascript" mode="static" position="head">
         <yield><![CDATA[
           <!--[if lt IE 10]>
-            <script type="text/javascript" src="{%= CurrentADC.URLTo("share/es5-shim.min.js") %}"></script>
+            <script type="text/javascript" src="{%= CurrentADC.URLTo("static/es5-shim.min.js") %}"></script>
             <![endif]-->
         ]]></yield>
       </content>
-      <content fileName="jquery-1.11.2.min.js" type="javascript" mode="share" position="head" />
-      <content fileName="jquery.nouislider.min.js" type="javascript" mode="share" position="head" />
-      <content fileName="jquery.nouislider.all.min.js" type="javascript" mode="share" position="head" />
+      <content fileName="jquery-1.11.2.min.js" type="javascript" mode="static" position="head" />
+      <content fileName="jquery.nouislider.min.js" type="javascript" mode="static" position="head" />
+      <content fileName="jquery.nouislider.all.min.js" type="javascript" mode="static" position="head" />
       <content fileName="slider.js" type="javascript" mode="static" position="head" />
       <content fileName="standard.js" type="javascript" mode="dynamic" position="foot" />
       <content fileName="standard_numeric.js" type="javascript" mode="dynamic" position="none" />
@@ -68,7 +68,7 @@
       <content fileName="standard_numeric_loop.js" type="javascript" mode="dynamic" position="none" />
       <content fileName="standard_single_loop.js" type="javascript" mode="dynamic" position="none" />
       <content fileName="interconnection.js" type="javascript" mode="dynamic" position="foot" />
-      <content fileName="tippy.min.js" type="javascript" mode="share" position="foot" />
+      <content fileName="tippy.min.js" type="javascript" mode="static" position="foot" />
     </output>
   </outputs>
   <properties>

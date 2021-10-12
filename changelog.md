@@ -81,3 +81,5 @@ v4.0.0 - Non-selectable headers
     v4.1.5 - isInLoop support for sliders with multiple exclusive options
     v4.1.6 - noUi-handle bug fixed
   v4.2.0 - Semi-opens
+    v4.2.1 -
+  v4.3.0 - share directory removed
