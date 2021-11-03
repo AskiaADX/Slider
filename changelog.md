@@ -83,3 +83,4 @@ v4.0.0 - Non-selectable headers
   v4.2.0 - Semi-opens
     v4.2.1 -
   v4.3.0 - share directory removed
+    v4.3.1 - slider pointer on mobile - bug fix
