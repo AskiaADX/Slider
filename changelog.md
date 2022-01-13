@@ -84,3 +84,4 @@ v4.0.0 - Non-selectable headers
     v4.2.1 -
   v4.3.0 - share directory removed
     v4.3.1 - slider pointer on mobile - bug fix
+    v4.3.2 - fixed min/max discrepancy crash on numerical questions 

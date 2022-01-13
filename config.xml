@@ -7,8 +7,8 @@
   <info>
     <name>Slider</name>
     <guid>75419bde-c158-45fe-a9b7-68cd4c6bb9b0</guid>
-    <version>4.3.1</version>
-    <date>2021-11-02</date>
+    <version>4.3.2</version>
+    <date>2022-01-13</date>
     <description><![CDATA[]]></description>
     <company>Askia</company>
     <author><![CDATA[Paul Ferreira <paulf@askia.com>,	  Thibault Piriou <thibault@askia.com>	  Jérôme Duparc <jeromed@askia.com>	  Stephen Bronnec <stephen@askia.com>   Prabath Gamage <prabath@askia.com>]]></author>
@@ -18,7 +18,7 @@
       <category>General</category>
     </categories>
     <constraints>
-      <constraint on="questions" numeric="true" single="true" chapter="false" date="false" multiple="false" open="false" requireParentLoop="false" requireLoopDepth="0" manageHeader="true" manageSemiOpen="true"/>
+      <constraint on="questions" numeric="true" single="true" chapter="false" date="false" multiple="false" open="false" requireParentLoop="false" requireLoopDepth="0" manageHeader="true" manageSemiOpen="true" />
       <constraint on="controls" responseblock="true" textbox="true" checkbox="false" label="false" listbox="false" radiobutton="false" />
       <constraint on="responses" max="*" min="*" />
     </constraints>
@@ -34,7 +34,7 @@
       <content fileName="single_loop.html" type="html" mode="dynamic" position="none" />
       <content fileName="default.html" type="html" mode="dynamic" position="placeholder" />
     </output>
-    <output id="standard"  manageLoopDepth="1">
+    <output id="standard" manageLoopDepth="1">
       <description><![CDATA[
         Output when the browser support Javascript
       ]]></description>
@@ -586,7 +586,7 @@
       </property>
       <property xsi:type="standardProperty" id="dkOptions" name="DK responses entry codes" type="string" mode="static" require="false" visible="true">
         <description><![CDATA[DK/Exclusive responses entry codes for Single closed questions]]></description>
-        <value><![CDATA[]]></value>
+        <value></value>
       </property>
       <property xsi:type="standardProperty" id="dkPosition" name="DK Position" type="string" mode="static" require="false" visible="true">
         <description><![CDATA[Position of DK]]></description>

@@ -2,14 +2,14 @@
 	"use strict";
 
 	$.fn.adcSlider = function adcSlider(options) {
-
+		// (options.isNumeric = ((options.maxValue < options.minValue) & options.isNumeric) ? true : false);
 		(options.width = options.width || 400);
 		(options.height = options.height || "auto");
 		(options.animate = Boolean(options.animate));
 		(options.autoForward = Boolean(options.autoForward));
-		(options.minValue = options.minValue || 0);
+		(options.intermediateValue = (((options.maxValue < options.minValue) & Boolean(options.isNumeric)) ? ((0 + options.maxValue)/2) : options.intermediateValue) || ((options.minValue + options.maxValue) / 2));
+		(options.minValue = ((options.maxValue < options.minValue) & Boolean(options.isNumeric)) ? 0 : (options.minValue || 0));
 		(options.maxValue = options.maxValue || 10);
-        (options.intermediateValue = options.intermediateValue || ((options.minValue + options.maxValue) / 2));
 		(options.unitStep = options.unitStep || 1);
 		(options.stepMarkerText = options.stepMarkerText || 1);
 		(options.sliderDirection = options.sliderDirection || "ltr");
@@ -23,6 +23,7 @@
 			hideHandle = Boolean(options.hideHandle),
 			showValue = Boolean(options.showValue),
 			isSingle = Boolean(options.isSingle),
+			isNumeric = Boolean(options.isNumeric),
 			isInLoop = Boolean(options.isInLoop),
 			dkEnabled = Boolean(options.dkEnabled),
 			dkOptions = options.dkOptions,
@@ -169,14 +170,19 @@
 
 		// Run noUiSlider
 		for ( var i=0; i<(isSingle && !isInLoop ? 1 : items.length); i++ ) {
+
 			var $input = items[i].element,
 				handleValue = isSingle ? $.inArray(roundToStep($input.val()), valuesArray) + roundToStep(options.minValue) : parseFloat($input.val());
+
+			console.log(options.minValue, options.maxValue, options.intermediateValue);
+
 
 			if ( isSingle && dkEnabled ) {
 				if ( ($.inArray(roundToStep($input.val()), valuesArray) + roundToStep(options.minValue)) > options.maxValue ) {
 					handleValue = startPosition;
 				}
 			}
+
 			if (interconnection){
 				handleValue = parseFloat(roundToStep($input.val())).toFixed(decimalPlaces);
 			}
@@ -292,6 +298,7 @@
 						$(this).parents('.controlContainer').find('.slider').eq(iteration).addClass('focused').find('.noUi-handle').show();
 					}
 				},
+
 				change : function(){
 				}
 			});
@@ -358,7 +365,7 @@
 					$(this).find('.sliderContainer').eq(i).find('.noUi-handle').hide();
 					let dkObjs = $(this).find('.sliderContainer').eq(i).find('.dk');
 					if($(dkObjs[0]).attr('data-value') == $input.val()) $(dkObjs[0]).addClass('selected');
-					$(this).find('.sliderContainer').eq(i).addClass('selected');					
+					$(this).find('.sliderContainer').eq(i).addClass('selected');
 				}
 			}
 
