@@ -1,5 +1,18 @@
 /* standard.css */
 {%
+Dim headerColourPrimary = CurrentADC.PropValue("headerColourPrimary")
+Dim headerFontColour = CurrentADC.PropValue("headerFontColour")
+Dim headerGroupPadding = CurrentADC.PropValue("headerGroupPadding")
+Dim headerHoverColourPrimary = CurrentADC.PropValue("headerHoverColourPrimary")
+Dim headerGroupBorderColor = CurrentADC.PropValue("headerGroupBorderColor")
+
+Dim headerTextAlign = CurrentADC.PropValue("headerTextAlign")
+
+Dim symbolPosition = "left"
+IF headerTextAlign = "left" Then
+		symbolPosition = "right"
+EndIF
+
 Dim labelColourPrimary = CurrentADC.PropValue("labelColourPrimary")
 Dim fontColour = CurrentADC.PropValue("fontColour")
 Dim labelShadow = CurrentADC.PropValue("labelShadow")
@@ -66,10 +79,6 @@ EndIF
 Dim imagePadding = CurrentADC.PropValue("imagePadding")
 
 Dim sliderBaseGradientDirection = CurrentADC.PropValue("sliderBaseGradientDirection")
-Dim rtlLangArr = {"ARA";"ARG";"ARH";"ARE";"ARI";"ARJ";"ARK";"ARB";"ARL";"ARM";"ARO";"ARQ";"ARS";"ART";"ARU";"ARY";"DIV";"HEB";"URD"}
-IF ((CurrentADC.PropValue("followLanguageDirection") = "1") AND (rtlLangArr.IndexOf(Interview.Language.Abbr) <> DK)) THEN
-	sliderBaseGradientDirection = "rtl"
-EndIF
 
 Dim dkBorderRadius = CurrentADC.PropValue("dkBorderRadius")
 Dim dkTextPadding = CurrentADC.PropValue("dkTextPadding")
@@ -297,17 +306,17 @@ Dim markerColor = CurrentADC.PropValue("sliderMarkerColor")
 	cursor:pointer;
 
 	/* background */
-	{% IF sliderBaseGradientDirection <> "ttb" Then %}
+	{% IF CurrentADC.PropValue("sliderBaseGradientDirection") <> "ttb" Then %}
 		background: rgb({%= sliderBasePrimaryColour%});
 		background: -moz-linear-gradient(left,  rgb({%= sliderBasePrimaryColour%}) 0%, rgb({%= sliderBaseSecondaryColour%}) 100%);
 		background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb({%= sliderBasePrimaryColour%})), color-stop(100%,rgb({%= sliderBaseSecondaryColour%})));
 		background: -webkit-linear-gradient(left,  rgb({%= sliderBasePrimaryColour%}) 0%,rgb({%= sliderBaseSecondaryColour%}) 100%);
 		background: -o-linear-gradient(left,  rgb({%= sliderBasePrimaryColour%}) 0%,rgb({%= sliderBaseSecondaryColour%}) 100%);
 		background: -ms-linear-gradient(left,  rgb({%= sliderBasePrimaryColour%}) 0%,rgb({%= sliderBaseSecondaryColour%}) 100%);
-		{% IF sliderBaseGradientDirection = "ltr" Then %}
-				background: linear-gradient(to right,  rgb({%= sliderBasePrimaryColour%}) 0%,rgb({%= sliderBaseSecondaryColour%}) 100%);
+		{% IF CurrentADC.PropValue("sliderBaseGradientDirection") = "ltr" Then %}
+			background: linear-gradient(to right,  rgb({%= sliderBasePrimaryColour%}) 0%,rgb({%= sliderBaseSecondaryColour%}) 100%);
 		{% Else %}
-				background: linear-gradient(to left,  rgb({%= sliderBasePrimaryColour%}) 0%,rgb({%= sliderBaseSecondaryColour%}) 100%);
+			background: linear-gradient(to left,  rgb({%= sliderBasePrimaryColour%}) 0%,rgb({%= sliderBaseSecondaryColour%}) 100%);
 		{% EndIF %}
 		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='{%= sliderBasePrimaryColour.ToHexa()%}', endColorstr='{%= sliderBaseSecondaryColour.ToHexa()%}',GradientType=1 );
 
@@ -368,30 +377,24 @@ Dim markerColor = CurrentADC.PropValue("sliderMarkerColor")
 #adc_{%= CurrentADC.InstanceId%} .selected .noUi-background {
 
 	/* background */
-	{% IF (CurrentADC.PropValue("sliderConnect") <> "lower") Then %}
-    {% IF (sliderBaseGradientDirection <> "ttb") Then %}
-			background: rgb({%= sliderSelectedPrimaryColour%});
-			background: -moz-linear-gradient(left,  rgb({%= sliderSelectedPrimaryColour%}) 0%, rgb({%= sliderSelectedSecondaryColour%}) 100%);
-			background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb({%= sliderSelectedPrimaryColour%})), color-stop(100%,rgb({%= sliderSelectedSecondaryColour%})));
-			background: -webkit-linear-gradient(left,  rgb({%= sliderSelectedPrimaryColour%}) 0%,rgb({%= sliderSelectedSecondaryColour%}) 100%);
-			background: -o-linear-gradient(left,  rgb({%= sliderSelectedPrimaryColour%}) 0%,rgb({%= sliderSelectedSecondaryColour%}) 100%);
-			background: -ms-linear-gradient(left,  rgb({%= sliderSelectedPrimaryColour%}) 0%,rgb({%= sliderSelectedSecondaryColour%}) 100%);
-			{% IF (sliderBaseGradientDirection = "ltr") Then %}
-					background: linear-gradient(to right,  rgb({%= sliderBasePrimaryColour%}) 0%,rgb({%= sliderBaseSecondaryColour%}) 100%);
-			{% Else %}
-					background: linear-gradient(to left,  rgb({%= sliderBasePrimaryColour%}) 0%,rgb({%= sliderBaseSecondaryColour%}) 100%);
-			{% EndIF %}
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='{%= sliderSelectedPrimaryColour.ToHexa()%}', endColorstr='{%= sliderSelectedSecondaryColour.ToHexa()%}',GradientType=1 );
-		{% Else %}
-			background: rgb({%= sliderSelectedSecondaryColour%});
-			background: -moz-linear-gradient(top,  rgb({%= sliderSelectedSecondaryColour%}) 0%, rgb({%= sliderSelectedPrimaryColour%}) 100%);
-			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb({%= sliderSelectedSecondaryColour%})), color-stop(100%,rgb({%= sliderSelectedPrimaryColour%})));
-			background: -webkit-linear-gradient(top,  rgb({%= sliderSelectedSecondaryColour%}) 0%,rgb({%= sliderSelectedPrimaryColour%}) 100%);
-			background: -o-linear-gradient(top,  rgb({%= sliderSelectedSecondaryColour%}) 0%,rgb({%= sliderSelectedPrimaryColour%}) 100%);
-			background: -ms-linear-gradient(top,  rgb({%= sliderSelectedSecondaryColour%}) 0%,rgb({%= sliderSelectedPrimaryColour%}) 100%);
-			background: linear-gradient(to bottom,  rgb({%= sliderSelectedSecondaryColour%}) 0%,rgb({%= sliderSelectedPrimaryColour%}) 100%);
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='{%= sliderSelectedSecondaryColour.ToHexa()%}', endColorstr='{%= sliderSelectedPrimaryColour.ToHexa()%}',GradientType=0 );
-		{% EndIF %}
+    {% IF (CurrentADC.PropValue("sliderBaseGradientDirection") = "ltr") and (CurrentADC.PropValue("sliderConnect") <> "lower") Then %}
+		background: rgb({%= sliderSelectedPrimaryColour%});
+		background: -moz-linear-gradient(left,  rgb({%= sliderSelectedPrimaryColour%}) 0%, rgb({%= sliderSelectedSecondaryColour%}) 100%);
+		background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb({%= sliderSelectedPrimaryColour%})), color-stop(100%,rgb({%= sliderSelectedSecondaryColour%})));
+		background: -webkit-linear-gradient(left,  rgb({%= sliderSelectedPrimaryColour%}) 0%,rgb({%= sliderSelectedSecondaryColour%}) 100%);
+		background: -o-linear-gradient(left,  rgb({%= sliderSelectedPrimaryColour%}) 0%,rgb({%= sliderSelectedSecondaryColour%}) 100%);
+		background: -ms-linear-gradient(left,  rgb({%= sliderSelectedPrimaryColour%}) 0%,rgb({%= sliderSelectedSecondaryColour%}) 100%);
+		background: linear-gradient(to right,  rgb({%= sliderSelectedPrimaryColour%}) 0%,rgb({%= sliderSelectedSecondaryColour%}) 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='{%= sliderSelectedPrimaryColour.ToHexa()%}', endColorstr='{%= sliderSelectedSecondaryColour.ToHexa()%}',GradientType=1 );
+	{% ElseIf (CurrentADC.PropValue("sliderBaseGradientDirection") <> "ltr") and (CurrentADC.PropValue("sliderConnect") <> "lower")  Then %}
+		background: rgb({%= sliderSelectedSecondaryColour%});
+		background: -moz-linear-gradient(top,  rgb({%= sliderSelectedSecondaryColour%}) 0%, rgb({%= sliderSelectedPrimaryColour%}) 100%);
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb({%= sliderSelectedSecondaryColour%})), color-stop(100%,rgb({%= sliderSelectedPrimaryColour%})));
+		background: -webkit-linear-gradient(top,  rgb({%= sliderSelectedSecondaryColour%}) 0%,rgb({%= sliderSelectedPrimaryColour%}) 100%);
+		background: -o-linear-gradient(top,  rgb({%= sliderSelectedSecondaryColour%}) 0%,rgb({%= sliderSelectedPrimaryColour%}) 100%);
+		background: -ms-linear-gradient(top,  rgb({%= sliderSelectedSecondaryColour%}) 0%,rgb({%= sliderSelectedPrimaryColour%}) 100%);
+		background: linear-gradient(to bottom,  rgb({%= sliderSelectedSecondaryColour%}) 0%,rgb({%= sliderSelectedPrimaryColour%}) 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='{%= sliderSelectedSecondaryColour.ToHexa()%}', endColorstr='{%= sliderSelectedPrimaryColour.ToHexa()%}',GradientType=0 );
 	{% EndIF %}
 
 
@@ -400,30 +403,24 @@ Dim markerColor = CurrentADC.PropValue("sliderMarkerColor")
 
 #adc_{%= CurrentADC.InstanceId%} .noUi-connect {
     /* background */
-		{% IF (CurrentADC.PropValue("sliderConnect") <> "lower") Then %}
-	    {% IF (sliderBaseGradientDirection <> "ttb") Then %}
-			background: rgb({%= sliderSelectedPrimaryColour%});
-			background: -moz-linear-gradient(left,  rgb({%= sliderSelectedPrimaryColour%}) 0%, rgb({%= sliderSelectedSecondaryColour%}) 100%);
-			background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb({%= sliderSelectedPrimaryColour%})), color-stop(100%,rgb({%= sliderSelectedSecondaryColour%})));
-			background: -webkit-linear-gradient(left,  rgb({%= sliderSelectedPrimaryColour%}) 0%,rgb({%= sliderSelectedSecondaryColour%}) 100%);
-			background: -o-linear-gradient(left,  rgb({%= sliderSelectedPrimaryColour%}) 0%,rgb({%= sliderSelectedSecondaryColour%}) 100%);
-			background: -ms-linear-gradient(left,  rgb({%= sliderSelectedPrimaryColour%}) 0%,rgb({%= sliderSelectedSecondaryColour%}) 100%);
-			{% IF sliderBaseGradientDirection = "ltr" Then %}
-					background: linear-gradient(to right,  rgb({%= sliderBasePrimaryColour%}) 0%,rgb({%= sliderBaseSecondaryColour%}) 100%);
-			{% Else %}
-					background: linear-gradient(to left,  rgb({%= sliderBasePrimaryColour%}) 0%,rgb({%= sliderBaseSecondaryColour%}) 100%);
-			{% EndIF %}
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='{%= sliderSelectedPrimaryColour.ToHexa()%}', endColorstr='{%= sliderSelectedSecondaryColour.ToHexa()%}',GradientType=1 );
-		{% Else %}
-			background: rgb({%= sliderSelectedSecondaryColour%});
-			background: -moz-linear-gradient(top,  rgb({%= sliderSelectedSecondaryColour%}) 0%, rgb({%= sliderSelectedPrimaryColour%}) 100%);
-			background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb({%= sliderSelectedSecondaryColour%})), color-stop(100%,rgb({%= sliderSelectedPrimaryColour%})));
-			background: -webkit-linear-gradient(top,  rgb({%= sliderSelectedSecondaryColour%}) 0%,rgb({%= sliderSelectedPrimaryColour%}) 100%);
-			background: -o-linear-gradient(top,  rgb({%= sliderSelectedSecondaryColour%}) 0%,rgb({%= sliderSelectedPrimaryColour%}) 100%);
-			background: -ms-linear-gradient(top,  rgb({%= sliderSelectedSecondaryColour%}) 0%,rgb({%= sliderSelectedPrimaryColour%}) 100%);
-			background: linear-gradient(to bottom,  rgb({%= sliderSelectedSecondaryColour%}) 0%,rgb({%= sliderSelectedPrimaryColour%}) 100%);
-			filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='{%= sliderSelectedSecondaryColour.ToHexa()%}', endColorstr='{%= sliderSelectedPrimaryColour.ToHexa()%}',GradientType=0 );
-		{% EndIF %}
+    {% IF (CurrentADC.PropValue("sliderBaseGradientDirection") = "ltr") and (CurrentADC.PropValue("sliderConnect") = "lower") Then %}
+		background: rgb({%= sliderSelectedPrimaryColour%});
+		background: -moz-linear-gradient(left,  rgb({%= sliderSelectedPrimaryColour%}) 0%, rgb({%= sliderSelectedSecondaryColour%}) 100%);
+		background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgb({%= sliderSelectedPrimaryColour%})), color-stop(100%,rgb({%= sliderSelectedSecondaryColour%})));
+		background: -webkit-linear-gradient(left,  rgb({%= sliderSelectedPrimaryColour%}) 0%,rgb({%= sliderSelectedSecondaryColour%}) 100%);
+		background: -o-linear-gradient(left,  rgb({%= sliderSelectedPrimaryColour%}) 0%,rgb({%= sliderSelectedSecondaryColour%}) 100%);
+		background: -ms-linear-gradient(left,  rgb({%= sliderSelectedPrimaryColour%}) 0%,rgb({%= sliderSelectedSecondaryColour%}) 100%);
+		background: linear-gradient(to right,  rgb({%= sliderSelectedPrimaryColour%}) 0%,rgb({%= sliderSelectedSecondaryColour%}) 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='{%= sliderSelectedPrimaryColour.ToHexa()%}', endColorstr='{%= sliderSelectedSecondaryColour.ToHexa()%}',GradientType=1 );
+	{% ElseIf (CurrentADC.PropValue("sliderBaseGradientDirection") <> "ltr") and (CurrentADC.PropValue("sliderConnect") = "lower") Then %}
+		background: rgb({%= sliderSelectedSecondaryColour%});
+		background: -moz-linear-gradient(top,  rgb({%= sliderSelectedSecondaryColour%}) 0%, rgb({%= sliderSelectedPrimaryColour%}) 100%);
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb({%= sliderSelectedSecondaryColour%})), color-stop(100%,rgb({%= sliderSelectedPrimaryColour%})));
+		background: -webkit-linear-gradient(top,  rgb({%= sliderSelectedSecondaryColour%}) 0%,rgb({%= sliderSelectedPrimaryColour%}) 100%);
+		background: -o-linear-gradient(top,  rgb({%= sliderSelectedSecondaryColour%}) 0%,rgb({%= sliderSelectedPrimaryColour%}) 100%);
+		background: -ms-linear-gradient(top,  rgb({%= sliderSelectedSecondaryColour%}) 0%,rgb({%= sliderSelectedPrimaryColour%}) 100%);
+		background: linear-gradient(to bottom,  rgb({%= sliderSelectedSecondaryColour%}) 0%,rgb({%= sliderSelectedPrimaryColour%}) 100%);
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='{%= sliderSelectedSecondaryColour.ToHexa()%}', endColorstr='{%= sliderSelectedPrimaryColour.ToHexa()%}',GradientType=0 );
 	{% EndIF %}
 }
 
@@ -608,7 +605,18 @@ Dim markerColor = CurrentADC.PropValue("sliderMarkerColor")
     {% IF CurrentADC.PropValue("showMarkerText") <> "1" Then %}
     	display:none;
   	{% EndIF %}
+		{% IF CurrentADC.PropValue("showResponseCaptions") = "1" Then %}
+		/* transform: rotate(-90deg); */
+  	{% EndIF %}
 }
+
+#adc_{%= CurrentADC.InstanceId%} .noUi-value-horizontal{
+	{% IF CurrentADC.PropValue("showResponseCaptions") = "1" Then %}
+		/* padding-top: 25px; */
+		/* margin-left: -30px; */
+	{% EndIF %}
+}
+
 #adc_{%= CurrentADC.InstanceId%} .noUi-marker-normal {
     {% IF CurrentADC.PropValue("showSubMarkers") <> "1" Then %}
     	display:none;
@@ -634,11 +642,47 @@ Dim markerColor = CurrentADC.PropValue("sliderMarkerColor")
 	color: rgb({%= markerColor %}) !important;
 }
 
+#adc_{%= CurrentADC.InstanceId%} .headerGroupWrap {
+	border: 1px solid rgb({%= headerGroupBorderColor %});
+	padding: {%= headerGroupPadding %}
+}
+
+#adc_{%= CurrentADC.InstanceId%} .headerLabel {
+		background-color: rgb({%= headerColourPrimary %}) !important;
+		border: 1px solid rgb({%= headerColourPrimary %});
+		cursor: pointer;
+		font-weight: bold;
+		color: rgb({%= headerFontColour %}) !important;
+		z-index: 0;
+		box-sizing: border-box;
+	  padding: 5px 15px 5px 15px;
+	  text-align: {%= headerTextAlign %};
+		margin-bottom: 0px;
+}
+
+#adc_{%= CurrentADC.InstanceId%} .headerLabel:hover {
+	background-color: rgb({%= headerHoverColourPrimary %}) !important;
+}
+
+.plus::after {
+	content: '\002B';
+  color: rgb({%= headerFontColour %});
+  font-weight: bold;
+  float: {%= symbolPosition %};
+}
+
+.minus::after {
+	content: "\2212";
+	color: rgb({%= headerFontColour %});
+  font-weight: bold;
+	float: {%= symbolPosition %};
+}
+
 /* tooltips */
-.tippy-tooltip {
+#adc_{%= CurrentADC.InstanceId%} .tippy-tooltip {
 	background-color: {%= Theme.PrimaryDarkColor.ToString().ToHexa() %} !important;
     border: 2px solid {%= Theme.PrimaryLightColor.ToString().ToHexa() %} !important;
 }
-.tippy-tooltip .tippy-tooltip-content {
+#adc_{%= CurrentADC.InstanceId%} .tippy-tooltip .tippy-tooltip-content {
 	color: {%= Theme.WhiteColor.ToString().ToHexa() %} !important;
 }

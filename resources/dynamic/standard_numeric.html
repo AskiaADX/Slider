@@ -9,12 +9,6 @@ IF CurrentADC.PropValue("leftLabelText") <> "" Then
 	labelCount = labelCount + 1
 EndIF
 
-Dim isRTL
-Dim rtlLangArr = {"ARA";"ARG";"ARH";"ARE";"ARI";"ARJ";"ARK";"ARB";"ARL";"ARM";"ARO";"ARQ";"ARS";"ART";"ARU";"ARY";"DIV";"HEB";"URD"}
-IF ((CurrentADC.PropValue("followLanguageDirection") = "1") AND (rtlLangArr.IndexOf(Interview.Language.Abbr) <> DK)) THEN
-	isRTL = "yes"
-EndIF
-
 %}
 
 <input type="hidden" id="{%= inputName %}" name="{%= inputName %}" value="{%= CurrentQuestion.inputValue() %}" />
@@ -23,112 +17,112 @@ EndIF
 
     <div class="sliderContainer">
         <table class="slider" border="0" cellpadding="0" cellspacing="0" width="100%">
-
+            
         {% IF CurrentADC.PropValue("labelPlacement") = "top" Then %}
-
-        	{% IF labelCount > 0 and CurrentADC.PropValue("displayLabelText") <> "none" Then %}
+        
+        	{% IF labelCount > 0 and CurrentADC.PropValue("displayLabelText") <> "none" Then %} 
                 <tr valign="middle" class="sliderTop">
                     {% IF CurrentADC.PropValue("leftLabelText") <> "" Then %}
                     <td width="{%= CurrentADC.PropValue("labelWidth") %}" style="padding-bottom:10px;" align="left">
-											<div class="leftLabel"><div class="sliderLabel">{%:= On(isRTL = "yes",CurrentADC.PropValue("rightLabelText"),CurrentADC.PropValue("leftLabelText")) %}</div></div>
+                        <div class="leftLabel"><div class="sliderLabel">{%:= CurrentADC.PropValue("leftLabelText") %}</div></div>
                     </td>
                     {% EndIF %}
                     <td width="100%"></td>
                     {% IF CurrentADC.PropValue("rightLabelText") <> "" Then %}
                     <td width="{%= CurrentADC.PropValue("labelWidth") %}" style="padding-bottom:10px;" align="right">
-											<div class="rightLabel"><div class="sliderLabel">{%:= On(isRTL = "yes",CurrentADC.PropValue("leftLabelText"),CurrentADC.PropValue("rightLabelText")) %}</div></div>
+                        <div class="rightLabel"><div class="sliderLabel">{%:= CurrentADC.PropValue("rightLabelText") %}</div></div>
                     </td>
                     {% EndIF %}
                 </tr>
             {% EndIF %}
-
+            
             <tr valign="middle" class="sliderMiddle">
                 <td colspan="{%= labelCount + 1 %}" align="left"><div class="noUiSlider noUi-extended"></div></td>
             </tr>
-
+            
             <tr valign="middle" class="sliderBottom">
                 <td colspan="{%= labelCount + 1 %}" style="padding-top:10px;" align="{%= CurrentADC.PropValue("dkPosition") %}"><div class="dk" data-value="-1">{%:= CurrentADC.PropValue("dkText")%}</div></td>
             </tr>
-
-
+            
+        
         {% Else %}
-
-            {% IF CurrentADC.PropValue("labelPlacement") = "side" Then %}
-
+            
+            {% IF CurrentADC.PropValue("labelPlacement") = "side" Then %} 
+            
             	{% IF labelCount > 0 and CurrentADC.PropValue("displayLabelText") <> "none" Then %}
-
+                 
                     <tr valign="middle" class="sliderTop">
                         {% IF CurrentADC.PropValue("leftLabelText") <> "" Then %}
                         <td width="{%= CurrentADC.PropValue("labelWidth") %}" style="padding-bottom:10px;" align="left">
-													<div class="leftLabel"><div class="sliderLabel">{%:= On(isRTL = "yes",CurrentADC.PropValue("rightLabelText"),CurrentADC.PropValue("leftLabelText")) %}</div></div>
+                            <div class="leftLabel"><div class="sliderLabel">{%:= CurrentADC.PropValue("leftLabelText") %}</div></div>
                         </td>
                        {% EndIF %}
                        <td width="100%"></td>
                        {% IF CurrentADC.PropValue("rightLabelText") <> "" Then %}
                         <td width="{%= CurrentADC.PropValue("labelWidth") %}" style="padding-bottom:10px;" align="right">
-													<div class="rightLabel"><div class="sliderLabel">{%:= On(isRTL = "yes",CurrentADC.PropValue("leftLabelText"),CurrentADC.PropValue("rightLabelText")) %}</div></div>
+                            <div class="rightLabel"><div class="sliderLabel">{%:= CurrentADC.PropValue("rightLabelText") %}</div></div>
                         </td>
                         {% EndIF %}
                     </tr>
-
+                
             	{% EndIF %}
-
+            
             	<tr valign="middle" class="sliderMiddle">
                 	{% IF CurrentADC.PropValue("leftLabelText") <> "" and CurrentADC.PropValue("displayLabelText") <> "none" Then %}
-                    <td width="{%= CurrentADC.PropValue("labelWidth") %}" align="left" style="text-align:left;">
-											<div class="leftLabel"><div class="sliderLabel">{%:= On(isRTL = "yes",CurrentADC.PropValue("rightLabelText"),CurrentADC.PropValue("leftLabelText")) %}</div></div>
+                        <td width="{%= CurrentADC.PropValue("labelWidth") %}" align="left" style="text-align:left;">
+                        <div class="leftLabel"><div class="sliderLabel">{%:= CurrentADC.PropValue("leftLabelText") %}</div></div>
                     </td>
                     {% EndIF %}
                     <td align="left"><div class="noUiSlider noUi-extended"></div></td>
                     {% IF CurrentADC.PropValue("rightLabelText") <> "" and CurrentADC.PropValue("displayLabelText") <> "none" Then %}
                     <td width="{%= CurrentADC.PropValue("labelWidth") %}" align="right" style="text-align:right;">
-											<div class="rightLabel"><div class="sliderLabel">{%:= On(isRTL = "yes",CurrentADC.PropValue("leftLabelText"),CurrentADC.PropValue("rightLabelText")) %}</div></div>
+                        <div class="rightLabel"><div class="sliderLabel">{%:= CurrentADC.PropValue("rightLabelText") %}</div></div>
                     </td>
                     {% EndIF %}
                 </tr>
-
+            
             {% Else %}
-
+            
             	<tr valign="middle" class="sliderMiddle">
                     <td colspan="{%= labelCount + 1 %}" align="left"><div class="noUiSlider noUi-extended"></div></td>
                 </tr>
-
+            
             {% EndIF %}
-
-            {% IF labelCount > 0 and CurrentADC.PropValue("labelPlacement") = "bottom" and CurrentADC.PropValue("displayLabelText") <> "none" Then %}
+            
+            {% IF labelCount > 0 and CurrentADC.PropValue("labelPlacement") = "bottom" and CurrentADC.PropValue("displayLabelText") <> "none" Then %} 
                 <tr valign="middle" class="sliderBottom">
                     {% IF CurrentADC.PropValue("leftLabelText") <> "" Then %}
                     <td width="{%= CurrentADC.PropValue("labelWidth") %}" style="padding-top:10px;" align="left">
-											<div class="leftLabel"><div class="sliderLabel">{%:= On(isRTL = "yes",CurrentADC.PropValue("rightLabelText"),CurrentADC.PropValue("leftLabelText")) %}</div></div>
+                        <div class="leftLabel"><div class="sliderLabel">{%:= CurrentADC.PropValue("leftLabelText") %}</div></div>
                     </td>
                    {% EndIF %}
                    <td width="100%"></td>
                    {% IF CurrentADC.PropValue("rightLabelText") <> "" Then %}
                     <td width="{%= CurrentADC.PropValue("labelWidth") %}" style="padding-top:10px;" align="right">
-											<div class="rightLabel"><div class="sliderLabel">{%:= On(isRTL = "yes",CurrentADC.PropValue("leftLabelText"),CurrentADC.PropValue("rightLabelText")) %}</div></div>
+                        <div class="rightLabel"><div class="sliderLabel">{%:= CurrentADC.PropValue("rightLabelText") %}</div></div>
                     </td>
                     {% EndIF %}
                 </tr>
-
+                
             {% EndIF %}
             <tr valign="middle" class="sliderDK">
             	<td colspan="{%= labelCount + 1 %}" style="padding-top:10px;" align="{%= CurrentADC.PropValue("dkPosition") %}"><div class="dk" data-value="-1">{%:= CurrentADC.PropValue("dkText")%}</div></td>
 			</tr>
-
+        
         {% EndIF %}
-
+                
         </table>
     </div>
 
 {% Else %}
 <!-- VERTICAL LAYOUT -->
-
+	
 	<div class="sliderContainer">
         <table class="slider" border="0" cellpadding="0" cellspacing="0" width="100%">
         	{% IF CurrentADC.PropValue("rightLabelText") <> "" Then %}
         	<tr valign="middle">
                 <td width="{%= CurrentADC.PropValue("labelWidth") %}" style="padding-bottom:10px;" align="center">
-										<div class="rightLabel"><div class="sliderLabel">{%:= On(isRTL = "yes",CurrentADC.PropValue("leftLabelText"),CurrentADC.PropValue("rightLabelText")) %}</div></div>										
+                    <div class="rightLabel"><div class="sliderLabel">{%:= CurrentADC.PropValue("rightLabelText") %}</div></div>
                 </td>
             </tr>
             {% EndIF %}
@@ -138,8 +132,8 @@ EndIF
             {% IF CurrentADC.PropValue("leftLabelText") <> "" Then %}
             <tr valign="middle">
             	<td width="{%= CurrentADC.PropValue("labelWidth") %}" style="padding-top:10px;">
-								<div class="leftLabel"><div class="sliderLabel">{%:= On(isRTL = "yes",CurrentADC.PropValue("rightLabelText"),CurrentADC.PropValue("leftLabelText")) %}</div></div>
-              </td>
+                    <div class="leftLabel"><div class="sliderLabel">{%:= CurrentADC.PropValue("leftLabelText") %}</div></div>
+                </td>
             </tr>
             {% EndIF %}
             <tr valign="middle">
@@ -147,8 +141,8 @@ EndIF
                     <div class="dk" data-value="-1">{%:= CurrentADC.PropValue("dkText")%}</div>
                 </td>
             </tr>
-
+            
         </table>
     </div>
-
+    
 {% EndIF %}

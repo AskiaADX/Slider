@@ -7,81 +7,9 @@
   <info>
     <name>Slider</name>
     <guid>75419bde-c158-45fe-a9b7-68cd4c6bb9b0</guid>
-    <version>3.0.9</version>
-    <date>2020-11-03</date>
-    <description><![CDATA[v1.0.2 - removed CSS3 Pie
-		v1.0.3 - fixed label width issue
-			   - fixed storing data problem for single questions in loops
-			   - fixed gradient direction when selecting slider
-		v1.0.4 - fixed chrome bug with label placement
-			   - inverted direction of gradient for top to bottom and selected top to bottom
-			   - fixed js error in numeric loops in IE7 and IE8
-		v1.0.5 - enabled control to be used in loops
-			   - fixed issue with label width when using small screen
-			   - fixed issue with IE7/8 and handle height
-		v1.0.6 - fixed issue with DK width
-			   - added dk position variable
-		v1.0.7 - fixed detection for movig labels above when too small
-		v1.0.8 - fixed dk single option value
-		v1.0.9 - removed gradient from ie7 - ie9 to fix clipping problem
-		       - fixed handle placement
-			   - updated slider to latest version
-			   - updated jquery to 1.11.1
-		v1.0.10 - fixed image loading glitch
-		v1.0.11 - re-added gradient from ie7 - ie9 at request of JeromeD
-		v1.0.12 - added better support for decimal places on handle image
-		v1.0.13 - fixed bug with all integers showing as -11
-		v1.0.14 - updated slider to latest version
-				- updated jquery to 1.11.2
-				- handle now contained within base
-				- changed handle shadow
-				- added showMarkers property
-		v1.0.15 - Loop Closed question slider behavior, #18 on github
-		v1.0.16 - Not using Value on looped closed, sometimes caused errors
-		v1.1.0 - TP - Added the interconnected sliders option
-        v1.1.1 - Fixing some bugs on the interconnected sliders
-		v1.1.2 - JD - Added slider direction parameter
-		v1.1.3 - JD - Added handleText and handleTextPosition parameters
-		v1.1.4 - Fixed marker positioning and enable increment according to unitStep value and using keyboard focus
-			   - Added Decimal Places
-			   - Added showMarkerText
-		v1.1.5 - JD - hide markers if window.width < 400 and horizontal orientation
-		       - Fixed value shown at start
-		       - Fixed position of the handle at start
-		       - Added a new param Slider Handle Start Position
-		v1.1.6 - JD - Added intermediateValue parameter
-		v1.1.7 - JD - Fixed the problem of jump not applied on the right of the slider
-		v1.1.8 - SB - Fixed an issue where "Nan" was showing in the handle of a numeric inside a loop instead of the propoer slider value
-        v1.1.9 - PF - Fixed issue when typing into text areas on the same page as slider
-		v1.1.10 - JD - Added Slider Connect parameter
-		v1.1.11 - JD - Fixed Weird behaviour with DK and Slider Connect parameter
-		v1.1.12 - JD - Recalculate the width of the pips
-		v1.1.13 - JD - Fixed half start position when unpaired number of values
-		v1.1.14 - JD - Fixed right text on pips
-		v1.1.15 - JD - Fixed hover style on DK
-		v1.1.16 - JD - Fixed selected style applied when digit applied to numerical slider
-		v1.1.17 - JD - Fixed coma digit for french intermediate value
-		v1.1.18 - SB - removed visibility:hidden on ControlContainer
-		v2.0.0 - JD - Theme implementation
-		v2.0.5 - PF - When using in a loop multiple labels can be used split by "|" (pipe)
-				  - PF - Added option to hide captions
-		v.2.0.6 - PF - Fixed issue with single choice displaying incorrect scale in pips
-				   - PF - Fixed issue with pip and vertical layout
-				   - PF - Fixed issue with handle position and vertical layout
-				   - PF - Fixed issue with spacing and multiple sliders in loop
-		v.2.0.7 - PF - Added tooltips
-		v2.0.8 - Added alt attribute to img
-    	v2.0.9 - Fixed marker stepping by enabling the possibility of give a step value for marker text/in the meantime it will reduce the markers density
-		v2.0.10 - Fixed background transparency when handle use image
-    	v2.0.11 - Fixed handleValue overlapping problem
-		v3.0.0 - AvailableAnswers
-    v3.0.1 - new property for marker and marker-pips color / "sliderMarkerColor"
-    v3.0.4 - fixed height label same size
-    v3.0.5 - fixed height label same size
-    v3.0.6 - properties mode set to dynamic
-    v3.0.7 - sliderBaseGradientDirection: Right to Left
-    v3.0.8 -
-    v3.0.9 - rtl languages support with sliderDirection]]></description>
+    <version>4.3.2</version>
+    <date>2022-01-13</date>
+    <description><![CDATA[]]></description>
     <company>Askia</company>
     <author><![CDATA[Paul Ferreira <paulf@askia.com>,	  Thibault Piriou <thibault@askia.com>	  Jérôme Duparc <jeromed@askia.com>	  Stephen Bronnec <stephen@askia.com>   Prabath Gamage <prabath@askia.com>]]></author>
     <site>http://www.askia.com</site>
@@ -90,7 +18,7 @@
       <category>General</category>
     </categories>
     <constraints>
-      <constraint on="questions" numeric="true" single="true" chapter="false" date="false" multiple="false" open="false" requireParentLoop="false" requireLoopDepth="0" />
+      <constraint on="questions" numeric="true" single="true" chapter="false" date="false" multiple="false" open="false" requireParentLoop="false" requireLoopDepth="0" manageHeader="true" manageSemiOpen="true" />
       <constraint on="controls" responseblock="true" textbox="true" checkbox="false" label="false" listbox="false" radiobutton="false" />
       <constraint on="responses" max="*" min="*" />
     </constraints>
@@ -106,7 +34,7 @@
       <content fileName="single_loop.html" type="html" mode="dynamic" position="none" />
       <content fileName="default.html" type="html" mode="dynamic" position="placeholder" />
     </output>
-    <output id="standard"  manageLoopDepth="1">
+    <output id="standard" manageLoopDepth="1">
       <description><![CDATA[
         Output when the browser support Javascript
       ]]></description>
@@ -115,24 +43,24 @@
       ]]></condition>
       <content fileName="slider.css" type="css" mode="static" position="head" />
       <content fileName="standard.css" type="css" mode="dynamic" position="head" />
-      <content fileName="jquery.nouislider.min.css" type="css" mode="share" position="head" />
-      <content fileName="jquery.nouislider.pips.min.css" type="css" mode="share" position="head" />
-      <content fileName="tippy.css" type="css" mode="share" position="head" />
+      <content fileName="jquery.nouislider.min.css" type="css" mode="static" position="head" />
+      <content fileName="jquery.nouislider.pips.min.css" type="css" mode="static" position="head" />
+      <content fileName="tippy.css" type="css" mode="static" position="head" />
       <content fileName="standard.html" type="html" mode="dynamic" position="placeholder" />
       <content fileName="standard_numeric.html" type="html" mode="dynamic" position="none" />
       <content fileName="standard_single.html" type="html" mode="dynamic" position="none" />
       <content fileName="standard_numeric_loop.html" type="html" mode="dynamic" position="none" />
       <content fileName="standard_single_loop.html" type="html" mode="dynamic" position="none" />
-      <content fileName="es5-shim.min.js" type="javascript" mode="share" position="head">
+      <content fileName="es5-shim.min.js" type="javascript" mode="static" position="head">
         <yield><![CDATA[
           <!--[if lt IE 10]>
-            <script type="text/javascript" src="{%= CurrentADC.URLTo("share/es5-shim.min.js") %}"></script>
+            <script type="text/javascript" src="{%= CurrentADC.URLTo("static/es5-shim.min.js") %}"></script>
             <![endif]-->
         ]]></yield>
       </content>
-      <content fileName="jquery-1.11.2.min.js" type="javascript" mode="share" position="head" />
-      <content fileName="jquery.nouislider.min.js" type="javascript" mode="share" position="head" />
-      <content fileName="jquery.nouislider.all.min.js" type="javascript" mode="share" position="head" />
+      <content fileName="jquery-1.11.2.min.js" type="javascript" mode="static" position="head" />
+      <content fileName="jquery.nouislider.min.js" type="javascript" mode="static" position="head" />
+      <content fileName="jquery.nouislider.all.min.js" type="javascript" mode="static" position="head" />
       <content fileName="slider.js" type="javascript" mode="static" position="head" />
       <content fileName="standard.js" type="javascript" mode="dynamic" position="foot" />
       <content fileName="standard_numeric.js" type="javascript" mode="dynamic" position="none" />
@@ -140,7 +68,7 @@
       <content fileName="standard_numeric_loop.js" type="javascript" mode="dynamic" position="none" />
       <content fileName="standard_single_loop.js" type="javascript" mode="dynamic" position="none" />
       <content fileName="interconnection.js" type="javascript" mode="dynamic" position="foot" />
-      <content fileName="tippy.min.js" type="javascript" mode="share" position="foot" />
+      <content fileName="tippy.min.js" type="javascript" mode="static" position="foot" />
     </output>
   </outputs>
   <properties>
@@ -175,14 +103,6 @@
         <options>
           <option value="ltr" text="Left to right" />
           <option value="rtl" text="Right to left" />
-        </options>
-      </property>
-      <property xsi:type="standardProperty" id="followLanguageDirection" name="Follow language direction" type="string" mode="static" require="true" visible="true">
-        <description><![CDATA[Follow the language type to decide the slider direction.]]></description>
-        <value><![CDATA[0]]></value>
-        <options>
-          <option value="1" text="Yes" />
-          <option value="0" text="No" />
         </options>
       </property>
       <property xsi:type="standardProperty" id="minValue" name="Minimum value" type="number" mode="static" require="false" visible="true">
@@ -237,6 +157,14 @@
         <description><![CDATA[Using HTML 5, in modern browser.
           Indicates the unit to seperate the numeric value/marker text of markers.]]></description>
         <value><![CDATA[1]]></value>
+      </property>
+      <property xsi:type="standardProperty" id="showResponseCaptions" name="Show response captions" type="string" mode="dynamic" require="true" visible="true">
+        <description><![CDATA[Show response captions for single-coded questions.]]></description>
+        <value><![CDATA[0]]></value>
+        <options>
+          <option value="1" text="Yes" />
+          <option value="0" text="No" />
+        </options>
       </property>
     </category>
     <category id="sliderBaseStyling" name="Slider Base Styling">
@@ -459,11 +387,10 @@
       </property>
       <property xsi:type="standardProperty" id="captionPlacement" name="Caption Placement" type="string" mode="static" require="false" visible="true">
         <description><![CDATA[The placement of the caption when the question is looped]]></description>
-        <value><![CDATA[left]]></value>
+        <value><![CDATA[top]]></value>
         <options>
-          <option value="left" text="Left" />
           <option value="top" text="Top" />
-          <option value="right" text="Right" />
+          <option value="bottom" text="Bottom" />
         </options>
       </property>
       <property xsi:type="standardProperty" id="captionWidth" name="Caption Width" type="string" mode="static" require="false" visible="true">
@@ -649,13 +576,17 @@
       </property>
     </category>
     <category id="dk" name="DK">
-      <property xsi:type="standardProperty" id="dkSingle" name="Turn on DK for single choice question" type="string" mode="dynamic" require="true" visible="true">
-        <description><![CDATA[Whether or not to use the last single choice option as a DK]]></description>
+      <property xsi:type="standardProperty" id="dkEnabled" name="Turn on DK" type="string" mode="dynamic" require="true" visible="true">
+        <description><![CDATA[Turn on DK for numerical and single-coded questions]]></description>
         <value><![CDATA[0]]></value>
         <options>
           <option value="1" text="Yes" />
           <option value="0" text="No" />
         </options>
+      </property>
+      <property xsi:type="standardProperty" id="dkOptions" name="DK responses entry codes" type="string" mode="static" require="false" visible="true">
+        <description><![CDATA[DK/Exclusive responses entry codes for Single closed questions]]></description>
+        <value></value>
       </property>
       <property xsi:type="standardProperty" id="dkPosition" name="DK Position" type="string" mode="static" require="false" visible="true">
         <description><![CDATA[Position of DK]]></description>
@@ -818,6 +749,45 @@
           <option value="0px 2px 4px rgba(0,0,0,.2)" text="On" />
           <option value="none" text="Off" />
         </options>
+      </property>
+    </category>
+    <category id="headers" name="Headers (non clickable responses)">
+      <property xsi:type="standardProperty" id="showHeaders" name="Show Headers" type="string" require="false" visible="true">
+        <description><![CDATA[]]></description>
+        <value><![CDATA[1]]></value>
+        <options>
+          <option value="1" text="Yes" />
+          <option value="0" text="No" />
+        </options>
+      </property>
+      <property xsi:type="standardProperty" id="headerColourPrimary" name="Header Background Colour" type="color" mode="dynamic" visible="true">
+        <description><![CDATA[Background colour of the header item]]></description>
+        <value><![CDATA[{%= Theme.NeutralDarkColor %}]]></value>
+      </property>
+      <property xsi:type="standardProperty" id="headerHoverColourPrimary" name="Header Hover Background Colour" type="color" mode="dynamic" visible="true">
+        <description><![CDATA[Hover background colour of the header item]]></description>
+        <value><![CDATA[{%= Theme.NeutralLightColor %}]]></value>
+      </property>
+      <property xsi:type="standardProperty" id="headerFontColour" name="Header Font Colour" type="color" mode="dynamic" visible="true">
+        <description><![CDATA[Header colour]]></description>
+        <value><![CDATA[{%= Theme.BlackColor %}]]></value>
+      </property>
+      <property xsi:type="standardProperty" id="headerTextAlign" name="Header text align" type="string" mode="dynamic" require="true" visible="true">
+        <description><![CDATA[position of the header row text]]></description>
+        <value><![CDATA[center]]></value>
+        <options>
+          <option value="center" text="Center" />
+          <option value="right" text="Right" />
+          <option value="left" text="Left" />
+        </options>
+      </property>
+      <property xsi:type="standardProperty" id="headerGroupPadding" name="Header group padding" type="string" mode="dynamic" visible="true">
+        <description><![CDATA[Header group box padding]]></description>
+        <value><![CDATA[10px]]></value>
+      </property>
+      <property xsi:type="standardProperty" id="headerGroupBorderColor" name="Header Group Border Colour" type="color" mode="dynamic" visible="true">
+        <description><![CDATA[Border colour of the header group box]]></description>
+        <value><![CDATA[{%= Theme.NeutralColor %}]]></value>
       </property>
     </category>
   </properties>

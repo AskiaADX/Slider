@@ -2,8 +2,8 @@
 /* CSS Document */
 
 .controlContainer { display:block; width:100%; }
-.sliderContainer { 
-	display:block; max-width:900px; width:100%; margin:0px auto; 
+.sliderContainer {
+	display:block; max-width:900px; width:100%; margin:0px auto;
 }
 /*
 .noUiSlider {
@@ -11,7 +11,7 @@
   padding:0;
 }*/
 
-.sliderLabel { 
+.sliderLabel {
 	padding:10px;
 }
 

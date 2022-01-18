@@ -2,19 +2,19 @@
 	"use strict";
 
 	$.fn.adcSlider = function adcSlider(options) {
-
+		// (options.isNumeric = ((options.maxValue < options.minValue) & options.isNumeric) ? true : false);
 		(options.width = options.width || 400);
 		(options.height = options.height || "auto");
 		(options.animate = Boolean(options.animate));
 		(options.autoForward = Boolean(options.autoForward));
-		(options.minValue = options.minValue || 0);
+		(options.intermediateValue = (((options.maxValue < options.minValue) & Boolean(options.isNumeric)) ? ((0 + options.maxValue)/2) : options.intermediateValue) || ((options.minValue + options.maxValue) / 2));
+		(options.minValue = ((options.maxValue < options.minValue) & Boolean(options.isNumeric)) ? 0 : (options.minValue || 0));
 		(options.maxValue = options.maxValue || 10);
-    (options.intermediateValue = options.intermediateValue || ((options.minValue + options.maxValue) / 2));
 		(options.unitStep = options.unitStep || 1);
 		(options.stepMarkerText = options.stepMarkerText || 1);
 		(options.sliderDirection = options.sliderDirection || "ltr");
-    (options.connect = options.connect || false);
-    (options.currentQuestion = options.currentQuestion || '');
+        (options.connect = options.connect || false);
+        (options.currentQuestion = options.currentQuestion || '');
 
 		// Delegate .transition() calls to .animate() if the browser can't do CSS transitions.
 		if (!$.support.transition) { $.fn.transition = $.fn.animate; }
@@ -23,8 +23,11 @@
 			hideHandle = Boolean(options.hideHandle),
 			showValue = Boolean(options.showValue),
 			isSingle = Boolean(options.isSingle),
+			isNumeric = Boolean(options.isNumeric),
 			isInLoop = Boolean(options.isInLoop),
-			dkSingle = Boolean(options.dkSingle),
+			dkEnabled = Boolean(options.dkEnabled),
+			dkOptions = options.dkOptions,
+			showResponseCaptions = Boolean(options.showResponseCaptions),
 			useHandleImage = Boolean(options.useHandleImage),
 			handleImagePath = options.handleImagePath,
 			handleImageWidth = options.handleImageWidth,
@@ -40,6 +43,7 @@
 			interconnection = Boolean(options.interconnection),
 			sliderOrientation = options.sliderOrientation,
 			valuesArray = new Array(),
+			captionsArray = new Array(),
 			iteration = 0,
 			total_images = $container.find("img").length,
 			unitStep = options.unitStep,
@@ -52,6 +56,8 @@
 			startPosition = (parseFloat(options.intermediateValue));
 			if (sliderHandleStartPosition == "min") startPosition = parseFloat(options.minValue);
 			if (sliderHandleStartPosition == "max") startPosition = parseFloat(options.maxValue);
+
+			const dkArr = dkOptions.split(',');
 
 		function filter500( value, type ){
 			return value % 100 ? 2 : 1;
@@ -71,25 +77,43 @@
 		var $container = $(this),
 			items = options.items;
 
+			var headerList = document.querySelectorAll('.headerLabel');
+			for (var i = 0; i < headerList.length; i++) {
+				headerList[i].onclick = function(){
+					var id = this.id;
+					var num = id.substring(id.length - 1);
+					if (i > 9) {
+						num = id.substring(id.length - 2);
+					}
+					$("#headerGroup"+num).slideToggle('slow');
+					$("i", this).toggleClass("plus minus");
+				};
+			}
+
 		// Check for DK
-		var DKID = items[0].element.attr('id').replace(/[^0-9]/g, ''),
-			hasDK = ( $('input[name="M' + DKID + ' -1"]').size() > 0 ) ? true : false;
-		if ( hasDK ) {
-			$('input[name="M' + DKID + ' -1"]').hide().next('span').hide();
-			$('#cpt' + DKID + '_-1').hide();
-		} else if ( !hasDK && !dkSingle ) {
-			$(this).find('.dk').hide();
+		if (items[0].element.attr('id') != undefined) {
+			var DKID = items[0].element.attr('id').replace(/[^0-9]/g, ''),
+				hasDK = ( $('input[name="M' + DKID + ' -1"]').size() > 0 ) ? true : false;
+			if ( hasDK ) {
+				$('input[name="M' + DKID + ' -1"]').hide().next('span').hide();
+				$('#cpt' + DKID + '_-1').hide();
+			} else if ( !hasDK && !dkEnabled ) {
+				$(this).find('.dk').hide();
+			}
 		}
 
 		if ( isSingle ) {
 			if ( isSingle && !isInLoop ) {
 				for ( var i=0; i<items.length; i++ ) {
 					valuesArray.push(items[i].value);
+					captionsArray.push(items[i].caption);
 				}
 			} else {
 				var allValuesArray = items[0].allValues.split(",");
+				var allCaptionsArray = items[0].allCaptions.split(",,,,");
 				for ( var i=0; i<allValuesArray.length; i++ ) {
 					valuesArray.push( parseInt( allValuesArray[i] ) );
+					captionsArray.push(allCaptionsArray[i]);
 				}
 			}
 			//options.minValue = 1,
@@ -97,11 +121,14 @@
 			options.maxValue = isInLoop ? parseInt(options.minValue) + (allValuesArray.length - 1) : parseInt(options.minValue) + (items.length - 1);
             unitStep = 1;
 						stepMarkerText = 1;
+
 		}
 
-		if ( isSingle && dkSingle ) {
-			options.maxValue = parseInt(options.maxValue) - 1;
-			$(this).find('.dk').attr('data-value',valuesArray[valuesArray.length-1]);
+		if ( isSingle && dkEnabled ) {
+			options.maxValue = parseInt(options.maxValue) - dkArr.length;
+			for (var i = 0; i < dkArr.length; i++) {
+				$($(this).find('.dk')[i]).attr('data-value',valuesArray[dkArr[i] - 1]);
+			}
 		}
 
 		// Check for images and resize
@@ -147,11 +174,15 @@
 			var $input = items[i].element,
 				handleValue = isSingle ? $.inArray(roundToStep($input.val()), valuesArray) + roundToStep(options.minValue) : parseFloat($input.val());
 
-			if ( isSingle && dkSingle ) {
+			console.log(options.minValue, options.maxValue, options.intermediateValue);
+
+
+			if ( isSingle && dkEnabled ) {
 				if ( ($.inArray(roundToStep($input.val()), valuesArray) + roundToStep(options.minValue)) > options.maxValue ) {
 					handleValue = startPosition;
 				}
 			}
+
 			if (interconnection){
 				handleValue = parseFloat(roundToStep($input.val())).toFixed(decimalPlaces);
 			}
@@ -200,60 +231,74 @@
 					}
 
 					if (showValue) {
-						var element = $(this).parents('.controlContainer'),
+						var handleText,
+						element = $(this).parents('.controlContainer'),
 							handleValue = isSingle ? $.inArray(roundToStep($input.val()), valuesArray) + roundToStep(options.minValue) : (decimalPlaces > 0 ? parseFloat(roundToStep($input.val())).toFixed(decimalPlaces) : roundToStep($input.val()) );
-
 						element.find('.handleValue').eq(iteration).css('padding-top', '');
-						element.find('.noUi-handle').eq(iteration).html( "<div class='handleValue'>" + leftHandleText + "" + handleValue + "" + rightHandleText + "</div>" );
+						element.find('.noUi-handle').eq(iteration).html( "<div class='handleValue'>" + leftHandleText + "" + (handleText = isSingle ? (showResponseCaptions ? captionsArray[handleValue] : handleValue) : handleValue) + "" + rightHandleText + "</div>" );
 						var topAdj = Math.ceil( ( element.find('.noUi-handle').eq(iteration).height() - element.find('.handleValue').eq(iteration).outerHeight() ) * 0.5 );
 						element.find('.handleValue').eq(iteration).css('padding-top', topAdj + 'px');
 					}
-                    if (showTooltips) {
+          if (showTooltips) {
 						var element = $(this).parents('.controlContainer'),
-							handleValue = isSingle ? $.inArray(roundToStep($input.val()), valuesArray) + roundToStep(options.minValue) : (decimalPlaces > 0 ? parseFloat(roundToStep($input.val())).toFixed(decimalPlaces) : roundToStep($input.val()) );
-                     	// element.find('.noUi-handle').eq(iteration).attr('title', isSingle ? items[handleValue].caption : handleValue);
-											element.find('.noUi-handle').eq(iteration).attr('title', handleValue);
+						handleValue = isSingle ? $.inArray(roundToStep($input.val()), valuesArray) + roundToStep(options.minValue) : (decimalPlaces > 0 ? parseFloat(roundToStep($input.val())).toFixed(decimalPlaces) : roundToStep($input.val()) );
+           	// element.find('.noUi-handle').eq(iteration).attr('title', isSingle ? items[handleValue].caption : handleValue);
+						if (showResponseCaptions & isSingle) {
+							element.find('.noUi-handle').eq(iteration).attr('title', captionsArray[handleValue]);
+						} else {
+							element.find('.noUi-handle').eq(iteration).attr('title', handleValue);
+						}
+          }
 
-                    }
+					let dkObjs = $(this).parents('.sliderContainer').find('.dk');
+					for (var a = 0; a < dkObjs.length; a++) {
+							$(dkObjs[a]).removeClass('selected');
+					}
 
-					$(this).parents('.sliderContainer').find('.dk').removeClass('selected');
-                    if (window.askia
-                        && window.arrLiveRoutingShortcut
-                        && window.arrLiveRoutingShortcut.length > 0
-                        && window.arrLiveRoutingShortcut.indexOf(options.currentQuestion) >= 0) {
-                        askia.triggerAnswer();
-                    }
+          if (window.askia
+              && window.arrLiveRoutingShortcut
+              && window.arrLiveRoutingShortcut.length > 0
+              && window.arrLiveRoutingShortcut.indexOf(options.currentQuestion) >= 0) {
+              askia.triggerAnswer();
+          }
 				},
 				slide : function() {
+
 					if ( isInLoop ) { iteration = $(this).parents('.sliderContainer').data('iteration'); }
 					if (showValue) {
-						var element = $(this).parents('.controlContainer'),
+						var handleText,
+						element = $(this).parents('.controlContainer'),
 							handleValue = isSingle ?
 								( isInLoop ? ( decimalPlaces > 0 ? parseFloat(roundToStep($(this).val())).toFixed(decimalPlaces) : roundToStep($(this).val()) ) : $.inArray(roundToStep(items[ roundToStep( $(this).val() - roundToStep(options.minValue) ) ].value), valuesArray) + roundToStep(options.minValue) )
 								: ( decimalPlaces > 0 ? parseFloat(roundToStep(roundToStep( $(this).val() ))).toFixed(decimalPlaces) : roundToStep(roundToStep( $(this).val() )) ) ;
 							//handleValue = isSingle ? $.inArray(parseInt($(this).val()), valuesArray) + parseInt(options.minValue) : parseInt($(this).val());
 
 						element.find('.handleValue').eq(iteration).css('padding-top', '');
-						element.find('.noUi-handle').eq(iteration).html( "<div class='handleValue'>" + leftHandleText + "" + handleValue + "" + rightHandleText + "</div>" );
+						element.find('.noUi-handle').eq(iteration).html( "<div class='handleValue'>" + leftHandleText + "" + (handleText = isSingle ? (showResponseCaptions ? captionsArray[handleValue] : handleValue) : handleValue) + "" + rightHandleText + "</div>" );
 						var topAdj = Math.ceil( ( element.find('.noUi-handle').eq(iteration).height() - element.find('.handleValue').eq(iteration).outerHeight() ) * 0.5 );
 						element.find('.handleValue').eq(iteration).css('padding-top', topAdj + 'px');
 					}
-                   if (showTooltips) {
-                        var element = $(this).parents('.controlContainer'),
-                            handleValue = isSingle ?
-                                ( isInLoop ? ( decimalPlaces > 0 ? parseFloat(roundToStep($(this).val())).toFixed(decimalPlaces) : roundToStep($(this).val()) ) : $.inArray(roundToStep(items[ roundToStep( $(this).val() - roundToStep(options.minValue) ) ].value), valuesArray) + roundToStep(options.minValue) ) :
-                                ( decimalPlaces > 0 ? parseFloat(roundToStep(roundToStep( $(this).val() ))).toFixed(decimalPlaces) : roundToStep(roundToStep( $(this).val() )) ) ;
-                        // element.find('.noUi-handle').eq(iteration).attr('title', isSingle ? items[handleValue].caption : handleValue);
-												element.find('.noUi-handle').eq(iteration).attr('title', handleValue);
+         if (showTooltips) {
+              var element = $(this).parents('.controlContainer'),
+                  handleValue = isSingle ?
+                      ( isInLoop ? ( decimalPlaces > 0 ? parseFloat(roundToStep($(this).val())).toFixed(decimalPlaces) : roundToStep($(this).val()) ) : $.inArray(roundToStep(items[ roundToStep( $(this).val() - roundToStep(options.minValue) ) ].value), valuesArray) + roundToStep(options.minValue) ) :
+                      ( decimalPlaces > 0 ? parseFloat(roundToStep(roundToStep( $(this).val() ))).toFixed(decimalPlaces) : roundToStep(roundToStep( $(this).val() )) ) ;
+              // element.find('.noUi-handle').eq(iteration).attr('title', isSingle ? items[handleValue].caption : handleValue);
+							 (showResponseCaptions & isSingle) ? element.find('.noUi-handle').eq(iteration).attr('title', captionsArray[handleValue]) : element.find('.noUi-handle').eq(iteration).attr('title', handleValue);
 
-                    }
+          }
 
-					$(this).parents('.sliderContainer').eq(iteration).find('.dk').removeClass('selected');
+					let dkObjs = $(this).parents('.sliderContainer').eq(iteration).find('.dk');
+					for (var a = 0; a < dkObjs.length; a++) {
+						$(dkObjs[a]).removeClass('selected');
+					}
+
 
 					if(interconnection){ // (show the handles on slide, not on set)
 						$(this).parents('.controlContainer').find('.slider').eq(iteration).addClass('focused').find('.noUi-handle').show();
 					}
 				},
+
 				change : function(){
 				}
 			});
@@ -270,6 +315,19 @@
 						})
 					});
 				} else {
+					if (isSingle & showResponseCaptions) {
+						var pipFormats = captionsArray;
+						$(this).find('.noUiSlider').eq(i).noUiSlider_pips({
+								mode: 'count',
+								values: (options.maxValue - options.minValue)+1,
+								density: (options.maxValue - options.minValue)/2,
+								format: {
+									to: function(a){
+										return pipFormats[a];
+									}
+								}
+						});
+					} else {
 						$(this).find('.noUiSlider').eq(i).noUiSlider_pips({
 								mode: 'count',
 								values: (options.maxValue - options.minValue)+1,
@@ -280,34 +338,33 @@
 									postfix: rightHandleText
 								})
 						});
+					}
 				}
 
-				/*if ( sliderOrientation == 'horizontal' ) {
-					$(this).find('td.sliderDK').css('padding-top','40px');
-					var pipsWidth = $(this).find('.noUiSlider').width(),
-						pipsMargin = $(this).find('.noUi-handle').width()/2;
-					$(this).find('.noUi-pips').css({'width':pipsWidth+'px','left':pipsMargin+'px'});
-				} else {
-					var pipsWidth = $(this).find('.noUiSlider').height(),
-						pipsMargin = $(this).find('.noUi-handle').height()/2;
-					$(this).find('.noUi-pips').css({'height':pipsWidth+'px','top':pipsMargin+'px'});
-				}*/
-
-				//$('.noUi-pips-horizontal').width = $('.noUiSlider').width() - $('.noUi-handle').width();
 				$('.noUi-pips-horizontal').css({
 					'left': ($('.noUi-handle').width()/2)+'px',
 					'width': $('.noUiSlider').outerWidth() - $('.noUi-handle').outerWidth()
 				});
-                $('.noUi-pips-vertical').css({
+      	$('.noUi-pips-vertical').css({
 					'top': ($('.noUi-handle').height()/2)+'px',
 					'height': $('.noUiSlider').outerHeight() - $('.noUi-handle').outerHeight()
 				});
 			}
 
-			if ( isSingle && dkSingle ) {
+			if ( isSingle && dkEnabled ) {
 				if ( ($.inArray(parseInt($input.val()), valuesArray) + parseInt(options.minValue)) > options.maxValue ) {
 					$(this).find('.sliderContainer').eq(i).find('.noUi-handle').hide();
-					$(this).find('.sliderContainer').eq(i).find('.dk').addClass('selected');
+					let dkObjs = $(this).find('.sliderContainer').eq(i).find('.dk');
+					for (var a = 0; a < dkObjs.length; a++) {
+						if($(dkObjs[a]).attr('data-value') == $input.val()) $(dkObjs[a]).addClass('selected');
+					}
+					$(this).find('.sliderContainer').eq(i).addClass('selected');
+				}
+			} else if (!isSingle && dkEnabled) {
+				if (parseInt($input.val()) == '-1') {
+					$(this).find('.sliderContainer').eq(i).find('.noUi-handle').hide();
+					let dkObjs = $(this).find('.sliderContainer').eq(i).find('.dk');
+					if($(dkObjs[0]).attr('data-value') == $input.val()) $(dkObjs[0]).addClass('selected');
 					$(this).find('.sliderContainer').eq(i).addClass('selected');
 				}
 			}
@@ -341,19 +398,26 @@
 
 			if (showValue) {
 
-				var element = $(this).parents('.controlContainer'),
-					handleValue = ($input.val()) !== "" ? (isSingle ? $.inArray(roundToStep($input.val()), valuesArray) + roundToStep(options.minValue)	: (decimalPlaces > 0 ? parseFloat(roundToStep($input.val())).toFixed(decimalPlaces) 	: roundToStep($input.val()) ) ) : '';
+				var handleText,
+					element = $(this).parents('.controlContainer'),
+					handleValue = ($input.val() !== "") ?	(isSingle ? ($.inArray(roundToStep($input.val()), valuesArray) + roundToStep(options.minValue))	: (decimalPlaces > 0 ? parseFloat(roundToStep($input.val())).toFixed(decimalPlaces)	: roundToStep($input.val()) ) ) : '';
+
 				element.find('.handleValue').eq(i).css('padding-top', '');
-				element.find('.noUi-handle').eq(i).html( "<div class='handleValue'>" + ( $input.val() !== "" ? (leftHandleText + "" + handleValue + "" + rightHandleText) : '' ) + "</div>" );
+				element.find('.noUi-handle').eq(i).html( "<div class='handleValue'>" + ( $input.val() !== "" ? (leftHandleText + "" + (handleText = isSingle ? (showResponseCaptions ? captionsArray[handleValue] : handleValue) : handleValue) + "" + rightHandleText) : '' ) + "</div>" );
 				var topAdj = Math.ceil( ( element.find('.noUi-handle').eq(i).height() - element.find('.handleValue').eq(i).outerHeight() ) * 0.5 );
 				element.find('.handleValue').eq(i).css('padding-top', topAdj + 'px');
+
 			}
 
 			if ( $input.val() == -1 ) {
 				var DKID = items[0].element.attr('id').replace(/[^0-9]/g, '');
 				if ( $('input[name="M' + DKID + ' -1"]').prop('checked') ) {
 					$(this).find('.sliderContainer').eq(i).find('.noUi-handle').hide();
-					$(this).find('.sliderContainer').eq(i).find('.dk').addClass('selected');
+					// $(this).find('.sliderContainer').eq(i).find('.dk').addClass('selected');
+					let dkObjs = $(this).find('.sliderContainer').eq(i).find('.dk');
+					for (var a = 0; a < dkObjs.length; a++) {
+						if($(dkObjs[a]).attr('data-value') == $input.val()) $(dkObjs[a]).addClass('selected');
+					}
 				}
 			}
 		}
@@ -398,9 +462,9 @@
 				// too small
 				// hide labels and markers
 				$('.leftLabel, .rightLabel').hide();
-                if ( labelPlacement == "side" ) {
-                	$('.noUi-pips-horizontal').hide();
-                }
+        if ( labelPlacement == "side" ) {
+        	$('.noUi-pips-horizontal').hide();
+        }
 				// get control container width
 				var widthDiff = $('.leftLabel').outerWidth(true) - $('.leftLabel').innerWidth(),
 					availableWidth = ($container.outerWidth() - (widthDiff * 2))/2;
@@ -513,7 +577,12 @@
             });
 		}
 		// hide handle
-        if ( hideHandle && !(roundToStep($input.val()) >= 0) ) $('.noUi-handle').hide();
+
+					$('.noUi-handle').each(function() {
+						if ( hideHandle & ($(this)[0]).textContent == "" && !(roundToStep($input.val()) >= 0) )
+							$(this).hide();
+					});
+
 
         adjustLabelWidth('.sliderLabel');
         adjustLabelHeight('.sliderLabel');
@@ -576,55 +645,62 @@
 		// enable keyboard interaction
 		$container.keydown(function( e ) {
 
-            e.preventDefault();
+			if (!($(e.target).hasClass('otherText'))) {
 
-			// if focus found
-			if ( $('.focused').size() > 0 && $container.find('.focused').length > 0 ) {
+				e.preventDefault();
 
-				var element = $('.focused').parents('.controlContainer'),
-					iteration = isInLoop ? $('.focused').parents('.sliderContainer').data('iteration') : 0,
-					slider = $('.focused').parents('.controlContainer').find('.noUiSlider').eq(iteration),
-					value = roundToStep( slider.val() ),
-					$input = items[iteration].element;
+				// if focus found
+				if ( $('.focused').size() > 0 && $container.find('.focused').length > 0 ) {
+
+					var element = $('.focused').parents('.controlContainer'),
+						iteration = isInLoop ? $('.focused').parents('.sliderContainer').data('iteration') : 0,
+						slider = $('.focused').parents('.controlContainer').find('.noUiSlider').eq(iteration),
+						value = roundToStep( slider.val() ),
+						$input = items[iteration].element;
 
 
-				switch ( e.which ) {
-					case 38:
-						if ( value < options.maxValue ) {
-							value = (decimalPlaces > 0 ? parseFloat(value) + parseFloat(unitStep) : value + parseFloat(unitStep));
-						}
-						slider.val( (decimalPlaces > 0 ? parseFloat(value).toFixed(decimalPlaces) : value ) );
-						break;
-					case 40:
-						if ( value > options.minValue ) {
-							value -= (decimalPlaces > 0 ? parseFloat(unitStep) : unitStep);
-						}
-						slider.val( (decimalPlaces > 0 ? parseFloat(value).toFixed(decimalPlaces) : value ) );
-						break;
+
+					switch ( e.which ) {
+						case 38:
+							if ( value < options.maxValue ) {
+								value = (decimalPlaces > 0 ? parseFloat(value) + parseFloat(unitStep) : value + parseFloat(unitStep));
+							}
+							slider.val( (decimalPlaces > 0 ? parseFloat(value).toFixed(decimalPlaces) : value ) );
+							break;
+						case 40:
+							if ( value > options.minValue ) {
+								value -= (decimalPlaces > 0 ? parseFloat(unitStep) : unitStep);
+							}
+							slider.val( (decimalPlaces > 0 ? parseFloat(value).toFixed(decimalPlaces) : value ) );
+							break;
+					}
+
+					//var handleValue = parseInt(value);
+					var handleText,
+					handleValue = (decimalPlaces > 0 ? parseFloat(value).toFixed(decimalPlaces) : value );
+
+					if (showValue) {
+						element.find('.handleValue').eq(iteration).css('padding-top', '');
+						element.find('.noUi-handle').eq(iteration).html( "<div class='handleValue'>" + leftHandleText + "" + (handleText = isSingle ? (showResponseCaptions ? captionsArray[i] : handleValue) : handleValue) + "" + rightHandleText + "</div>" );
+						var topAdj = Math.ceil( ( element.find('.noUi-handle').eq(iteration).height() - element.find('.handleValue').eq(iteration).outerHeight() ) * 0.5 );
+						element.find('.handleValue').eq(iteration).css('padding-top', topAdj + 'px');
+					}
+
+					if ( isSingle && !isInLoop ) $input.val( items[ parseInt( value ) - 1  ].value );
+					else if ( isSingle && isInLoop ) {
+						if ( e.which == 38 ) $input.val( valuesArray[ (value - parseInt(options.minValue) ) ] );
+						else if ( e.which == 40 ) $input.val( valuesArray[ (value - parseInt(options.minValue)) ] );
+					} else $input.val( roundToStep( value ) );
+									if (window.askia
+											&& window.arrLiveRoutingShortcut
+											&& window.arrLiveRoutingShortcut.length > 0
+											&& window.arrLiveRoutingShortcut.indexOf(options.currentQuestion) >= 0) {
+											askia.triggerAnswer();
+									}
 				}
 
-				//var handleValue = parseInt(value);
-				var handleValue = (decimalPlaces > 0 ? parseFloat(value).toFixed(decimalPlaces) : value );
-
-				if (showValue) {
-					element.find('.handleValue').eq(iteration).css('padding-top', '');
-					element.find('.noUi-handle').eq(iteration).html( "<div class='handleValue'>" + leftHandleText + "" + handleValue + "" + rightHandleText + "</div>" );
-					var topAdj = Math.ceil( ( element.find('.noUi-handle').eq(iteration).height() - element.find('.handleValue').eq(iteration).outerHeight() ) * 0.5 );
-					element.find('.handleValue').eq(iteration).css('padding-top', topAdj + 'px');
-				}
-
-				if ( isSingle && !isInLoop ) $input.val( items[ parseInt( value ) - 1  ].value );
-				else if ( isSingle && isInLoop ) {
-					if ( e.which == 38 ) $input.val( valuesArray[ (value - parseInt(options.minValue) ) ] );
-					else if ( e.which == 40 ) $input.val( valuesArray[ (value - parseInt(options.minValue)) ] );
-				} else $input.val( roundToStep( value ) );
-                if (window.askia
-                    && window.arrLiveRoutingShortcut
-                    && window.arrLiveRoutingShortcut.length > 0
-                    && window.arrLiveRoutingShortcut.indexOf(options.currentQuestion) >= 0) {
-                    askia.triggerAnswer();
-                }
 			}
+
 		});
 
 		function selectDK() {
@@ -638,18 +714,19 @@
 
 			// Hide handle
 			slider.find('.noUi-handle').hide();
-            if (options.sliderOrientation === 'vertical' && options.connect === 'lower') {
-            	slider.find('.noUi-origin').css("top","120%");
-            }
-            if (options.sliderOrientation !== 'vertical' && options.connect === 'lower') {
-            	slider.find('.noUi-background').css("left","0%");
-            }
-
+      if (options.sliderOrientation === 'vertical' && options.connect === 'lower') {
+      	slider.find('.noUi-origin').css("top","120%");
+      }
+      if (options.sliderOrientation !== 'vertical' && options.connect === 'lower') {
+      	slider.find('.noUi-background').css("left","0%");
+      }
 
 			// Set value to input
 			//$input.val(value);
-
-			//$(this).parents('.sliderContainer').find('.noUiSlider').removeClass('selected');
+			let dkObjs = $(this).parents('.sliderContainer').find('.dk');
+			for (var a = 0; a < dkObjs.length; a++) {
+				$(dkObjs[a]).removeClass('selected');
+			}
 			if ( $(this).hasClass('selected') ) {
 				$(this).removeClass('selected');
 				$input.val('');
@@ -661,14 +738,14 @@
 				$('input[name="M' + DKID + ' -1"]').prop('checked', true);
 				$(this).parents('.sliderContainer').addClass('selected');
 			}
-            if (window.askia
-                && window.arrLiveRoutingShortcut
-                && window.arrLiveRoutingShortcut.length > 0
-                && window.arrLiveRoutingShortcut.indexOf(options.currentQuestion) >= 0) {
-                askia.triggerAnswer();
-            }
+      if (window.askia
+          && window.arrLiveRoutingShortcut
+          && window.arrLiveRoutingShortcut.length > 0
+          && window.arrLiveRoutingShortcut.indexOf(options.currentQuestion) >= 0) {
+          askia.triggerAnswer();
+      }
 		}
-        $container.on('click', '.dk', selectDK);
+    $container.on('click', '.dk', selectDK);
 
 		if ( total_images > 0 ) {
 			$container.find('img').each(function() {

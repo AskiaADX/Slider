@@ -22,12 +22,6 @@ IF CurrentADC.PropValue("leftLabelText") <> "" Then
     leftLabelArray = CurrentADC.PropValue("leftLabelText").Split("|")
 EndIF
 
-Dim isRTL
-Dim rtlLangArr = {"ARA";"ARG";"ARH";"ARE";"ARI";"ARJ";"ARK";"ARB";"ARL";"ARM";"ARO";"ARQ";"ARS";"ART";"ARU";"ARY";"DIV";"HEB";"URD"}
-IF ((CurrentADC.PropValue("followLanguageDirection") = "1") AND (rtlLangArr.IndexOf(Interview.Language.Abbr) <> DK)) THEN
-	isRTL = "yes"
-EndIF
-
 For j = 1 To ar.Count
 	inputName = CurrentQuestion.Iteration(ar[j].Index).InputName()
     caption   = ar[j].Caption
@@ -50,7 +44,24 @@ window.addEventListener("load", function() {
 
     {% IF CurrentADC.PropValue("sliderOrientation") = "horizontal" Then %}
 
-        <div class="sliderContainer" data-iteration="{%= j-1 %}">
+
+			{% IF ar[j].isOpen Then %}
+			<div class="">
+				<label class="caption">
+							{% IF CurrentADC.PropValue("imageAlign") = "left" Then %}
+							{% IF image <> "" Then %} <img src="{%= image %}" alt="{%= caption %}"/> {% EndIF %}
+							{% EndIF %}
+							{%:= caption %}
+							{% IF CurrentADC.PropValue("imageAlign") = "right" Then %}
+							{% IF image <> "" Then %} <img src="{%= image %}" alt="{%= caption %}"/> {% EndIF %}
+							{% EndIF %}
+				</label>
+
+				<input type="text" aria-label="Other" class="otherText" id="askia-input{%= ar[j].OpenQuestion.InputCode %}"
+				name="{%= ar[j].OpenQuestion.InputName() %}" value="{%= ar[j].OpenQuestion.inputValue() %}" autocomplete="off">
+			{% Else %}
+
+			<div class="sliderContainer" data-iteration="{%= j-1 %}">
         	<label class="caption">
                 {% IF CurrentADC.PropValue("imageAlign") = "left" Then %}
                 {% IF image <> "" Then %} <img src="{%= image %}" alt="{%= caption %}"/> {% EndIF %}
@@ -71,7 +82,7 @@ window.addEventListener("load", function() {
                         {% IF leftLabelArray.Count > 1 Then %}
                         <div class="leftLabel"><div class="sliderLabel">{%:= leftLabelArray[ar[j].Index] %}</div></div>
                         {% Else %}
-                        <div class="leftLabel"><div class="sliderLabel">{%:= On(isRTL = "yes",CurrentADC.PropValue("rightLabelText"),CurrentADC.PropValue("leftLabelText")) %}</div></div>
+                        <div class="leftLabel"><div class="sliderLabel">{%:= CurrentADC.PropValue("leftLabelText") %}</div></div>
                         {% EndIF %}
                     </td>
                     {% EndIF %}
@@ -81,7 +92,7 @@ window.addEventListener("load", function() {
                         {% IF rightLabelArray.Count > 1 Then %}
                         <div class="rightLabel"><div class="sliderLabel">{%:= rightLabelArray[ar[j].Index] %}</div></div>
                         {% Else %}
-                        <div class="rightLabel"><div class="sliderLabel">{%:= On(isRTL = "yes",CurrentADC.PropValue("leftLabelText"),CurrentADC.PropValue("rightLabelText")) %}</div></div>
+                        <div class="rightLabel"><div class="sliderLabel">{%:= CurrentADC.PropValue("rightLabelText") %}</div></div>
                         {% EndIF %}
                     </td>
                     {% EndIF %}
@@ -109,7 +120,7 @@ window.addEventListener("load", function() {
                             {% IF leftLabelArray.Count > 1 Then %}
                             <div class="leftLabel"><div class="sliderLabel">{%:= leftLabelArray[ar[j].Index] %}</div></div>
                             {% Else %}
-														<div class="leftLabel"><div class="sliderLabel">{%:= On(isRTL = "yes",CurrentADC.PropValue("rightLabelText"),CurrentADC.PropValue("leftLabelText")) %}</div></div>
+                            <div class="leftLabel"><div class="sliderLabel">{%:= CurrentADC.PropValue("leftLabelText") %}</div></div>
                             {% EndIF %}
                         </td>
                        {% EndIF %}
@@ -119,7 +130,7 @@ window.addEventListener("load", function() {
                             {% IF rightLabelArray.Count > 1 Then %}
                             <div class="rightLabel"><div class="sliderLabel">{%:= rightLabelArray[ar[j].Index] %}</div></div>
                             {% Else %}
-														<div class="rightLabel"><div class="sliderLabel">{%:= On(isRTL = "yes",CurrentADC.PropValue("leftLabelText"),CurrentADC.PropValue("rightLabelText")) %}</div></div>
+                            <div class="rightLabel"><div class="sliderLabel">{%:= CurrentADC.PropValue("rightLabelText") %}</div></div>
                             {% EndIF %}
                         </td>
                         {% EndIF %}
@@ -133,7 +144,7 @@ window.addEventListener("load", function() {
                         {% IF leftLabelArray.Count > 1 Then %}
                         <div class="leftLabel"><div class="sliderLabel">{%:= leftLabelArray[ar[j].Index] %}</div></div>
                         {% Else %}
-												<div class="leftLabel"><div class="sliderLabel">{%:= On(isRTL = "yes",CurrentADC.PropValue("rightLabelText"),CurrentADC.PropValue("leftLabelText")) %}</div></div>
+                        <div class="leftLabel"><div class="sliderLabel">{%:= CurrentADC.PropValue("leftLabelText") %}</div></div>
                         {% EndIF %}
                     </td>
                     {% EndIF %}
@@ -143,7 +154,7 @@ window.addEventListener("load", function() {
                         {% IF rightLabelArray.Count > 1 Then %}
                         <div class="rightLabel"><div class="sliderLabel">{%:= rightLabelArray[ar[j].Index] %}</div></div>
                         {% Else %}
-												<div class="rightLabel"><div class="sliderLabel">{%:= On(isRTL = "yes",CurrentADC.PropValue("leftLabelText"),CurrentADC.PropValue("rightLabelText")) %}</div></div>
+                        <div class="rightLabel"><div class="sliderLabel">{%:= CurrentADC.PropValue("rightLabelText") %}</div></div>
                         {% EndIF %}
                     </td>
                     {% EndIF %}
@@ -164,7 +175,7 @@ window.addEventListener("load", function() {
                         {% IF leftLabelArray.Count > 1 Then %}
                         <div class="leftLabel"><div class="sliderLabel">{%:= leftLabelArray[ar[j].Index] %}</div></div>
                         {% Else %}
-												<div class="leftLabel"><div class="sliderLabel">{%:= On(isRTL = "yes",CurrentADC.PropValue("rightLabelText"),CurrentADC.PropValue("leftLabelText")) %}</div></div>
+                        <div class="leftLabel"><div class="sliderLabel">{%:= CurrentADC.PropValue("leftLabelText") %}</div></div>
                         {% EndIF %}
                     </td>
                    {% EndIF %}
@@ -174,7 +185,7 @@ window.addEventListener("load", function() {
                         {% IF rightLabelArray.Count > 1 Then %}
                         <div class="rightLabel"><div class="sliderLabel">{%:= rightLabelArray[ar[j].Index] %}</div></div>
                         {% Else %}
-												<div class="rightLabel"><div class="sliderLabel">{%:= On(isRTL = "yes",CurrentADC.PropValue("leftLabelText"),CurrentADC.PropValue("rightLabelText")) %}</div></div>
+                        <div class="rightLabel"><div class="sliderLabel">{%:= CurrentADC.PropValue("rightLabelText") %}</div></div>
                         {% EndIF %}
                     </td>
                     {% EndIF %}
@@ -183,7 +194,7 @@ window.addEventListener("load", function() {
             {% EndIF %}
             <tr valign="middle" class="sliderDK">
             	<td colspan="{%= labelCount + 1 %}" style="padding-top:10px;" align="{%= CurrentADC.PropValue("dkPosition") %}"><div class="dk" data-value="-1">{%:= CurrentADC.PropValue("dkText")%}</div></td>
-			</tr>
+						</tr>
 
         {% EndIF %}
 
@@ -192,6 +203,8 @@ window.addEventListener("load", function() {
 				{% IF interconnection Then %}
 				<label class="freezeLabel"><input class="freezeBox" type="checkbox" id="freeze{%= adcId %}_{%= j %}" onchange="dim{%= adcId %}(this.id)" />{%=freezeBoxLabel%}</label>
 				{% EndIF %}
+
+			{% EndIF %}
 
     </div>
 
@@ -206,7 +219,7 @@ window.addEventListener("load", function() {
                     {% IF rightLabelArray.Count > 1 Then %}
                     <div class="rightLabel"><div class="sliderLabel">{%:= rightLabelArray[ar[j].Index] %}</div></div>
                     {% Else %}
-										<div class="rightLabel"><div class="sliderLabel">{%:= On(isRTL = "yes",CurrentADC.PropValue("leftLabelText"),CurrentADC.PropValue("rightLabelText")) %}</div></div>
+                    <div class="rightLabel"><div class="sliderLabel">{%:= CurrentADC.PropValue("rightLabelText") %}</div></div>
                     {% EndIF %}
                 </td>
             </tr>
@@ -220,7 +233,7 @@ window.addEventListener("load", function() {
                     {% IF leftLabelArray.Count > 1 Then %}
                     <div class="leftLabel"><div class="sliderLabel">{%:= leftLabelArray[ar[j].Index] %}</div></div>
                     {% Else %}
-										<div class="leftLabel"><div class="sliderLabel">{%:= On(isRTL = "yes",CurrentADC.PropValue("rightLabelText"),CurrentADC.PropValue("leftLabelText")) %}</div></div>
+                    <div class="leftLabel"><div class="sliderLabel">{%:= CurrentADC.PropValue("leftLabelText") %}</div></div>
                     {% EndIF %}
                 </td>
             </tr>
@@ -228,7 +241,7 @@ window.addEventListener("load", function() {
             <tr valign="middle">
             	<td style="padding-top:10px;">
                     <div class="dk" data-value="-1">{%:= CurrentADC.PropValue("dkText")%}</div>
-                </td>
+              </td>
             </tr>
 
         </table>

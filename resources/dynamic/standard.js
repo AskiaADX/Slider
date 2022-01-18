@@ -16,22 +16,16 @@ $(window).load(function() {
 		maxValue : {%= CurrentADC.PropValue("maxValue") %},
 		isInLoop: {%= (CurrentADC.PropValue("isInLoop") = "1") %},
 		sliderOrientation : '{%= CurrentADC.PropValue("sliderOrientation") %}',
-		{%
-			Dim rtlLangArr = {"ARA";"ARG";"ARH";"ARE";"ARI";"ARJ";"ARK";"ARB";"ARL";"ARM";"ARO";"ARQ";"ARS";"ART";"ARU";"ARY";"DIV";"HEB";"URD"}
-			IF ((CurrentADC.PropValue("followLanguageDirection") = "1") AND (rtlLangArr.IndexOf(Interview.Language.Abbr) <> DK)) THEN
-		%}
-			sliderDirection : 'rtl',
-		{% Else %}
-			sliderDirection : '{%= CurrentADC.PropValue("sliderDirection") %}',
-		{% EndIF %}
-		followLanguageDirection : {%= (CurrentADC.PropValue("followLanguageDirection") = "1") %},
+		sliderDirection : '{%= CurrentADC.PropValue("sliderDirection") %}',
 		sliderHandleStartPosition : '{%= CurrentADC.PropValue("sliderHandleStartPosition") %}',
 		hideHandle : {%= (CurrentADC.PropValue("hideHandle") = "1") %},
 		showValue : {%= (CurrentADC.PropValue("showValue") = "1") %},
 		handleText : '{%:= CurrentADC.PropValue("handleText") %}',
 		handleTextPosition : '{%:= CurrentADC.PropValue("handleTextPosition") %}',
 		isSingle : {%= (CurrentQuestion.Type = "single") %},
-		dkSingle: {%= (CurrentADC.PropValue("dkSingle") = "1") %},
+		isNumeric : {%= (CurrentQuestion.Type = "numeric") %},
+		dkEnabled: {%= (CurrentADC.PropValue("dkEnabled") = "1") %},
+		dkOptions: '{%:= CurrentADC.PropValue("dkOptions") %}',
 		useHandleImage : {%= (CurrentADC.PropValue("useHandleImage") = "1") %},
 		handleImagePath : '{%= CurrentADC.PropValue("handleImagePath") %}',
 		handleImageWidth : '{%= CurrentADC.PropValue("handleImageWidth") %}',
@@ -44,6 +38,7 @@ $(window).load(function() {
         showTooltips : {%= (CurrentADC.PropValue("showTooltips") = "1") %},
 		showMarkers : {%= (CurrentADC.PropValue("showMarkers") = "1") %},
         showMarkerText : {%= (CurrentADC.PropValue("showMarkerText") = "1") %},
+				showResponseCaptions : {%= (CurrentADC.PropValue("showResponseCaptions") = "1") %},
 		interconnection : {%= (CurrentADC.PropValue("interconnection") = "1") %},
         decimalPlaces : {%= CurrentADC.PropValue("decimalPlaces") %},
       	currentQuestion: '{%:= CurrentQuestion.Shortcut %}',
