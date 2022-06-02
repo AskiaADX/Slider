@@ -7,8 +7,8 @@
   <info>
     <name>Slider</name>
     <guid>75419bde-c158-45fe-a9b7-68cd4c6bb9b0</guid>
-    <version>4.3.2</version>
-    <date>2022-01-13</date>
+    <version>4.4.0</version>
+    <date>2022-06-01</date>
     <description><![CDATA[]]></description>
     <company>Askia</company>
     <author><![CDATA[Paul Ferreira <paulf@askia.com>,	  Thibault Piriou <thibault@askia.com>	  Jérôme Duparc <jeromed@askia.com>	  Stephen Bronnec <stephen@askia.com>   Prabath Gamage <prabath@askia.com>]]></author>
@@ -160,6 +160,14 @@
       </property>
       <property xsi:type="standardProperty" id="showResponseCaptions" name="Show response captions" type="string" mode="dynamic" require="true" visible="true">
         <description><![CDATA[Show response captions for single-coded questions.]]></description>
+        <value><![CDATA[0]]></value>
+        <options>
+          <option value="1" text="Yes" />
+          <option value="0" text="No" />
+        </options>
+      </property>
+      <property xsi:type="standardProperty" id="allowNumericInput" name="Allow numeric input" type="string" mode="dynamic" require="true" visible="true">
+        <description><![CDATA[Allow numerical control for single-coded slider.]]></description>
         <value><![CDATA[0]]></value>
         <options>
           <option value="1" text="Yes" />
