@@ -86,3 +86,4 @@ v4.0.0 - Non-selectable headers
     v4.3.1 - slider pointer on mobile - bug fix
     v4.3.2 - fixed min/max discrepancy crash on numerical questions
   v4.4.0 - Dynamically control a single-closed slider by a numerical input
+    v4.4.1 - Fixed - noUi-origin right-margin
