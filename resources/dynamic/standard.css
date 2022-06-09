@@ -586,9 +586,13 @@ Dim markerColor = CurrentADC.PropValue("sliderMarkerColor")
 	left: -1px;
 }
 
-@media screen and (min-width: 481px) {
+#adc_{%= CurrentADC.InstanceId%} .noUi-horizontal.noUi-extended .noUi-origin  {
+	right: -{%= sliderHandleWidth.ToNumber() - 2%}px;
+}
+
+@media screen and (max-width: 480px) {
 	#adc_{%= CurrentADC.InstanceId%} .noUi-horizontal.noUi-extended .noUi-origin  {
-		right: -{%= sliderHandleWidth.ToNumber() - 2%}px;
+		right: -{%= sliderHandleWidth.ToNumber() - 25%}px;
 	}
 }
 
