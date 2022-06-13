@@ -87,3 +87,4 @@ v4.0.0 - Non-selectable headers
     v4.3.2 - fixed min/max discrepancy crash on numerical questions
   v4.4.0 - Dynamically control a single-closed slider by a numerical input
     v4.4.1 - Fixed - noUi-origin right-margin
+    v4.4.2 - Added - Update the number box value when hold + mouse-move on slider.

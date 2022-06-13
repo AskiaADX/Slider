@@ -279,6 +279,8 @@
 						element.find('.noUi-handle').eq(iteration).html( "<div class='handleValue'>" + leftHandleText + "" + (handleText = isSingle ? (showResponseCaptions ? captionsArray[handleValue] : handleValue) : handleValue) + "" + rightHandleText + "</div>" );
 						var topAdj = Math.ceil( ( element.find('.noUi-handle').eq(iteration).height() - element.find('.handleValue').eq(iteration).outerHeight() ) * 0.5 );
 						element.find('.handleValue').eq(iteration).css('padding-top', topAdj + 'px');
+
+						if (allowNumericInput && isSingle && dkEnabled) controlInput.value = handleValue;
 					}
          if (showTooltips) {
               var element = $(this).parents('.controlContainer'),
@@ -323,7 +325,7 @@
 				noUiSlider.find('.noUi-handle').find('.handleValue').text(numInput.value);
 				noUiSlider.find('.noUi-handle').find('.handleValue').css('padding-top', '10px');
 				if ($(window).width() <= 360) {
-					noUiSlider.find('.noUi-origin').css('left',(((numInput.value/options.maxValue)*100) - 8)+'%');					
+					noUiSlider.find('.noUi-origin').css('left',(((numInput.value/options.maxValue)*100) - 8)+'%');
 				} else {
 					noUiSlider.find('.noUi-origin').css('left',((numInput.value/options.maxValue)*100)+'%');
 				}
