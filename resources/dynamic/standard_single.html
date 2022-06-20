@@ -14,11 +14,20 @@ EndIF
 Dim showResponseCaptions = CurrentADC.PropValue("showResponseCaptions")
 Dim dkOptions = CurrentADC.PropValue("dkOptions")
 Dim optArr = dkOptions.Split()
+
+Dim minValue = CurrentADC.PropValue("minValue")
+Dim maxValue = CurrentADC.PropValue("maxValue")
+
 Dim i
 
 %}
 
-<input type="hidden" id="{%= inputName %}" name="{%= inputName %}" value="{%= CurrentQuestion.inputValue() %}" />
+{% IF CurrentADC.PropValue("allowNumericInput") = "1" Then %}
+	<input type="number" id="sliderInput_{%= inputName %}" class="numInput" min="{%= minValue %}" max="{%= maxValue %}" />
+	<input type="hidden" id="{%= inputName %}" name="{%= inputName %}" value="{%= CurrentQuestion.inputValue() %}" />
+{% Else %}
+	<input type="hidden" id="{%= inputName %}" name="{%= inputName %}" value="{%= CurrentQuestion.inputValue() %}" />
+{% EndIF %}
 
 {% IF CurrentADC.PropValue("sliderOrientation") = "horizontal" Then %}
 

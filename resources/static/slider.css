@@ -25,3 +25,6 @@
     user-select: none;
     cursor: pointer;
 }
+.numInput {
+	margin-bottom: 5%;
+}

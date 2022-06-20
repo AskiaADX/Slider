@@ -44,6 +44,7 @@ $(window).load(function() {
       	currentQuestion: '{%:= CurrentQuestion.Shortcut %}',
         connect : '{%= CurrentADC.PropValue("sliderConnect") %}',
 				stepMarkerText : {%= CurrentADC.PropValue("stepMarkerText")%},
+				allowNumericInput : {%= (CurrentADC.PropValue("allowNumericInput") = "1") %},
 		items : [
 			{% IF CurrentADC.PropValue("isInLoop") = "1" Then %}
 				{% IF CurrentQuestion.Type = "single" Then %}
