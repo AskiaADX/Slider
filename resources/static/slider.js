@@ -194,7 +194,9 @@
       }
       rangeData['max'] = [options.maxValue];
 
-			$(this).find('.noUiSlider').eq(i).noUiSlider({
+			var mySlider = $(this).find('.noUiSlider').eq(i);
+			console.log(mySlider[0]);
+			noUiSlider.create(mySlider[0], {
 				//range: {'min':[options.minValue], '50%':[options.intermediateValue,unitStep], 'max':[options.maxValue]},
         range: rangeData,
 				start: ($input.val() !== "") ? parseFloat(handleValue) : startPosition,
