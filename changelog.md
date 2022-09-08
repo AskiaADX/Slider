@@ -89,4 +89,4 @@ v4.0.0      - Non-selectable headers
     v4.4.1  - Fixed - noUi-origin right-margin
     v4.4.2  - Added - Update the number box value when hold + mouse-move on slider.
   v4.5.0    - Update the noUiSlider plugin
-            - jQuery update with migrate
+            - jQuery update
