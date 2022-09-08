@@ -1,6 +1,5 @@
 (function ($) {
 	"use strict";
-
 	$.fn.adcSlider = function adcSlider(options) {
 		// (options.isNumeric = ((options.maxValue < options.minValue) & options.isNumeric) ? true : false);
 		(options.width = options.width || 400);
@@ -194,9 +193,7 @@
       }
       rangeData['max'] = [options.maxValue];
 
-			var mySlider = $(this).find('.noUiSlider').eq(i);
-			console.log(mySlider[0]);
-			noUiSlider.create(mySlider[0], {
+			$(this).find('.noUiSlider').eq(i).noUiSlider({
 				//range: {'min':[options.minValue], '50%':[options.intermediateValue,unitStep], 'max':[options.maxValue]},
         range: rangeData,
 				start: ($input.val() !== "") ? parseFloat(handleValue) : startPosition,

@@ -43,8 +43,8 @@
       ]]></condition>
       <content fileName="slider.css" type="css" mode="static" position="head" />
       <content fileName="standard.css" type="css" mode="dynamic" position="head" />
-      <content fileName="nouislider.min.css" type="css" mode="static" position="head" />
-      <content fileName="nouislider.pips.css" type="css" mode="static" position="head" />
+      <content fileName="jquery.nouislider.min.css" type="css" mode="static" position="head" />
+      <content fileName="jquery.nouislider.pips.min.css" type="css" mode="static" position="head" />
       <content fileName="tippy.css" type="css" mode="static" position="head" />
       <content fileName="standard.html" type="html" mode="dynamic" position="placeholder" />
       <content fileName="standard_numeric.html" type="html" mode="dynamic" position="none" />
@@ -58,11 +58,11 @@
             <![endif]-->
         ]]></yield>
       </content>
-      <content fileName="jquery-1.11.2.min.js" type="javascript" mode="static" position="head" />
-      <content fileName="jquery-ui.min.js" type="javascript" mode="static" position="head" />      
-      <!-- <content fileName="jquery-migrate-1.4.1.min.js" type="javascript" mode="static" position="head" /> -->
-      <content fileName="wNumb.min.js" type="javascript" mode="static" position="head" />
-      <content fileName="nouislider.min.js" type="javascript" mode="static" position="head" />
+      <content fileName="jquery-3.6.0.min.js" type="javascript" mode="static" position="head" />
+      <content fileName="jquery-ui.min.js" type="javascript" mode="static" position="head" />
+      <content fileName="jquery.nouislider.min.js" type="javascript" mode="static" position="head" />
+      <content fileName="jquery.nouislider.all.min.js" type="javascript" mode="static" position="head" />
+      <!-- <content fileName="wNumb.min.js" type="javascript" mode="static" position="head" /> -->
       <content fileName="slider.js" type="javascript" mode="static" position="head" />
       <content fileName="standard.js" type="javascript" mode="dynamic" position="foot" />
       <content fileName="standard_numeric.js" type="javascript" mode="dynamic" position="none" />
@@ -71,6 +71,7 @@
       <content fileName="standard_single_loop.js" type="javascript" mode="dynamic" position="none" />
       <content fileName="interconnection.js" type="javascript" mode="dynamic" position="foot" />
       <content fileName="tippy.min.js" type="javascript" mode="static" position="foot" />
+      <content fileName="jquery-migrate-3.4.0.js" type="javascript" mode="static" position="head" />
     </output>
   </outputs>
   <properties>
