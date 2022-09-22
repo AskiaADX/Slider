@@ -193,7 +193,10 @@
       }
       rangeData['max'] = [options.maxValue];
 
-			$(this).find('.noUiSlider').eq(i).noUiSlider({
+			console.log($(this).find('.noUiSlider').eq(i));
+			var sliderContainerDiv = $(this).find('.noUiSlider').eq(i)[0];
+
+			if(sliderContainerDiv) noUiSlider.create(sliderContainerDiv, {
 				//range: {'min':[options.minValue], '50%':[options.intermediateValue,unitStep], 'max':[options.maxValue]},
         range: rangeData,
 				start: ($input.val() !== "") ? parseFloat(handleValue) : startPosition,
@@ -206,105 +209,106 @@
 					}),
 				orientation: options.sliderOrientation, // or 'vertical'
 				direction: ((options.sliderDirection === 'ltr') && (options.sliderOrientation !== 'vertical')) ? 'ltr' : 'rtl'
-			}).on({
-				set : function() {
+			});
 
-					if ( isInLoop ) { iteration = $(this).parents('.sliderContainer').data('iteration'); }
+			if(sliderContainerDiv) sliderContainerDiv.noUiSlider.on('set', function() {
 
-					var $container = $(this).parents('.sliderContainer'),
-						$input = items[iteration].element;
-					if ( isSingle && !isInLoop ) {
-						$input.val( items[ roundToStep( $(this).val() - roundToStep(options.minValue) ) ].value );
-					} else if ( isSingle && isInLoop ) {
-						$input.val( valuesArray[ ( roundToStep($(this).val()) - roundToStep(options.minValue) ) ] );
-					} else {
-						$input.val( roundToStep( $(this).val() ) );
-					}
-					$('.focused').removeClass('focused');
+				if ( isInLoop ) { iteration = $(this).parents('.sliderContainer').data('iteration'); }
 
-
-					if(!interconnection){ // (the interaction is bad with interconnected sliders, the handles will be shown on slide, not on set)
-						// make handle visible and add focus
-						$(this).parents('.controlContainer').find('.slider').eq(iteration).addClass('focused').find('.noUi-handle').show();
-
-						// set slider base colour once selected
-						$container.addClass('selected');
-					}
-
-					if (showValue) {
-						var handleText,
-						element = $(this).parents('.controlContainer'),
-							handleValue = isSingle ? $.inArray(roundToStep($input.val()), valuesArray) + roundToStep(options.minValue) : (decimalPlaces > 0 ? parseFloat(roundToStep($input.val())).toFixed(decimalPlaces) : roundToStep($input.val()) );
-						element.find('.handleValue').eq(iteration).css('padding-top', '');
-						element.find('.noUi-handle').eq(iteration).html( "<div class='handleValue'>" + leftHandleText + "" + (handleText = isSingle ? (showResponseCaptions ? captionsArray[handleValue] : handleValue) : handleValue) + "" + rightHandleText + "</div>" );
-						var topAdj = Math.ceil( ( element.find('.noUi-handle').eq(iteration).height() - element.find('.handleValue').eq(iteration).outerHeight() ) * 0.5 );
-						element.find('.handleValue').eq(iteration).css('padding-top', topAdj + 'px');
-					}
-          if (showTooltips) {
-						var element = $(this).parents('.controlContainer'),
-						handleValue = isSingle ? $.inArray(roundToStep($input.val()), valuesArray) + roundToStep(options.minValue) : (decimalPlaces > 0 ? parseFloat(roundToStep($input.val())).toFixed(decimalPlaces) : roundToStep($input.val()) );
-           	// element.find('.noUi-handle').eq(iteration).attr('title', isSingle ? items[handleValue].caption : handleValue);
-						if (showResponseCaptions & isSingle) {
-							element.find('.noUi-handle').eq(iteration).attr('title', captionsArray[handleValue]);
-						} else {
-							element.find('.noUi-handle').eq(iteration).attr('title', handleValue);
-						}
-          }
-
-					let dkObjs = $(this).parents('.sliderContainer').find('.dk');
-					for (var a = 0; a < dkObjs.length; a++) {
-							$(dkObjs[a]).removeClass('selected');
-					}
-
-          if (window.askia
-              && window.arrLiveRoutingShortcut
-              && window.arrLiveRoutingShortcut.length > 0
-              && window.arrLiveRoutingShortcut.indexOf(options.currentQuestion) >= 0) {
-              askia.triggerAnswer();
-          }
-				},
-				slide : function() {
-
-					if ( isInLoop ) { iteration = $(this).parents('.sliderContainer').data('iteration'); }
-					if (showValue) {
-						var handleText,
-						element = $(this).parents('.controlContainer'),
-							handleValue = isSingle ?
-								( isInLoop ? ( decimalPlaces > 0 ? parseFloat(roundToStep($(this).val())).toFixed(decimalPlaces) : roundToStep($(this).val()) ) : $.inArray(roundToStep(items[ roundToStep( $(this).val() - roundToStep(options.minValue) ) ].value), valuesArray) + roundToStep(options.minValue) )
-								: ( decimalPlaces > 0 ? parseFloat(roundToStep(roundToStep( $(this).val() ))).toFixed(decimalPlaces) : roundToStep(roundToStep( $(this).val() )) ) ;
-							//handleValue = isSingle ? $.inArray(parseInt($(this).val()), valuesArray) + parseInt(options.minValue) : parseInt($(this).val());
-
-						element.find('.handleValue').eq(iteration).css('padding-top', '');
-						element.find('.noUi-handle').eq(iteration).html( "<div class='handleValue'>" + leftHandleText + "" + (handleText = isSingle ? (showResponseCaptions ? captionsArray[handleValue] : handleValue) : handleValue) + "" + rightHandleText + "</div>" );
-						var topAdj = Math.ceil( ( element.find('.noUi-handle').eq(iteration).height() - element.find('.handleValue').eq(iteration).outerHeight() ) * 0.5 );
-						element.find('.handleValue').eq(iteration).css('padding-top', topAdj + 'px');
-
-						if (allowNumericInput && isSingle && dkEnabled) controlInput.value = handleValue;
-					}
-         if (showTooltips) {
-              var element = $(this).parents('.controlContainer'),
-                  handleValue = isSingle ?
-                      ( isInLoop ? ( decimalPlaces > 0 ? parseFloat(roundToStep($(this).val())).toFixed(decimalPlaces) : roundToStep($(this).val()) ) : $.inArray(roundToStep(items[ roundToStep( $(this).val() - roundToStep(options.minValue) ) ].value), valuesArray) + roundToStep(options.minValue) ) :
-                      ( decimalPlaces > 0 ? parseFloat(roundToStep(roundToStep( $(this).val() ))).toFixed(decimalPlaces) : roundToStep(roundToStep( $(this).val() )) ) ;
-              // element.find('.noUi-handle').eq(iteration).attr('title', isSingle ? items[handleValue].caption : handleValue);
-							 (showResponseCaptions & isSingle) ? element.find('.noUi-handle').eq(iteration).attr('title', captionsArray[handleValue]) : element.find('.noUi-handle').eq(iteration).attr('title', handleValue);
-
-          }
-
-					let dkObjs = $(this).parents('.sliderContainer').eq(iteration).find('.dk');
-					for (var a = 0; a < dkObjs.length; a++) {
-						$(dkObjs[a]).removeClass('selected');
-					}
-
-
-					if(interconnection){ // (show the handles on slide, not on set)
-						$(this).parents('.controlContainer').find('.slider').eq(iteration).addClass('focused').find('.noUi-handle').show();
-					}
-				},
-
-				change : function(){
-					if (allowNumericInput && isSingle && dkEnabled) controlInput.value = $.inArray(roundToStep($input.val()), valuesArray);
+				var $container = $(this).parents('.sliderContainer'),
+					$input = items[iteration].element;
+				if ( isSingle && !isInLoop ) {
+					$input.val( items[ roundToStep( $(this).val() - roundToStep(options.minValue) ) ].value );
+				} else if ( isSingle && isInLoop ) {
+					$input.val( valuesArray[ ( roundToStep($(this).val()) - roundToStep(options.minValue) ) ] );
+				} else {
+					$input.val( roundToStep( $(this).val() ) );
 				}
+				$('.focused').removeClass('focused');
+
+
+				if(!interconnection){ // (the interaction is bad with interconnected sliders, the handles will be shown on slide, not on set)
+					// make handle visible and add focus
+					$(this).parents('.controlContainer').find('.slider').eq(iteration).addClass('focused').find('.noUi-handle').show();
+
+					// set slider base colour once selected
+					$container.addClass('selected');
+				}
+
+				if (showValue) {
+					var handleText,
+					element = $(this).parents('.controlContainer'),
+						handleValue = isSingle ? $.inArray(roundToStep($input.val()), valuesArray) + roundToStep(options.minValue) : (decimalPlaces > 0 ? parseFloat(roundToStep($input.val())).toFixed(decimalPlaces) : roundToStep($input.val()) );
+					element.find('.handleValue').eq(iteration).css('padding-top', '');
+					element.find('.noUi-handle').eq(iteration).html( "<div class='handleValue'>" + leftHandleText + "" + (handleText = isSingle ? (showResponseCaptions ? captionsArray[handleValue] : handleValue) : handleValue) + "" + rightHandleText + "</div>" );
+					var topAdj = Math.ceil( ( element.find('.noUi-handle').eq(iteration).height() - element.find('.handleValue').eq(iteration).outerHeight() ) * 0.5 );
+					element.find('.handleValue').eq(iteration).css('padding-top', topAdj + 'px');
+				}
+        if (showTooltips) {
+					var element = $(this).parents('.controlContainer'),
+					handleValue = isSingle ? $.inArray(roundToStep($input.val()), valuesArray) + roundToStep(options.minValue) : (decimalPlaces > 0 ? parseFloat(roundToStep($input.val())).toFixed(decimalPlaces) : roundToStep($input.val()) );
+         	// element.find('.noUi-handle').eq(iteration).attr('title', isSingle ? items[handleValue].caption : handleValue);
+					if (showResponseCaptions & isSingle) {
+						element.find('.noUi-handle').eq(iteration).attr('title', captionsArray[handleValue]);
+					} else {
+						element.find('.noUi-handle').eq(iteration).attr('title', handleValue);
+					}
+        }
+
+				let dkObjs = $(this).parents('.sliderContainer').find('.dk');
+				for (var a = 0; a < dkObjs.length; a++) {
+						$(dkObjs[a]).removeClass('selected');
+				}
+
+        if (window.askia
+            && window.arrLiveRoutingShortcut
+            && window.arrLiveRoutingShortcut.length > 0
+            && window.arrLiveRoutingShortcut.indexOf(options.currentQuestion) >= 0) {
+            askia.triggerAnswer();
+        }
+			});
+
+			if(sliderContainerDiv) sliderContainerDiv.noUiSlider.on('slide', function() {
+
+				if ( isInLoop ) { iteration = $(this).parents('.sliderContainer').data('iteration'); }
+				if (showValue) {
+					var handleText,
+					element = $(this).parents('.controlContainer'),
+						handleValue = isSingle ?
+							( isInLoop ? ( decimalPlaces > 0 ? parseFloat(roundToStep($(this).val())).toFixed(decimalPlaces) : roundToStep($(this).val()) ) : $.inArray(roundToStep(items[ roundToStep( $(this).val() - roundToStep(options.minValue) ) ].value), valuesArray) + roundToStep(options.minValue) )
+							: ( decimalPlaces > 0 ? parseFloat(roundToStep(roundToStep( $(this).val() ))).toFixed(decimalPlaces) : roundToStep(roundToStep( $(this).val() )) ) ;
+						//handleValue = isSingle ? $.inArray(parseInt($(this).val()), valuesArray) + parseInt(options.minValue) : parseInt($(this).val());
+
+					element.find('.handleValue').eq(iteration).css('padding-top', '');
+					element.find('.noUi-handle').eq(iteration).html( "<div class='handleValue'>" + leftHandleText + "" + (handleText = isSingle ? (showResponseCaptions ? captionsArray[handleValue] : handleValue) : handleValue) + "" + rightHandleText + "</div>" );
+					var topAdj = Math.ceil( ( element.find('.noUi-handle').eq(iteration).height() - element.find('.handleValue').eq(iteration).outerHeight() ) * 0.5 );
+					element.find('.handleValue').eq(iteration).css('padding-top', topAdj + 'px');
+
+					if (allowNumericInput && isSingle && dkEnabled) controlInput.value = handleValue;
+				}
+       if (showTooltips) {
+            var element = $(this).parents('.controlContainer'),
+                handleValue = isSingle ?
+                    ( isInLoop ? ( decimalPlaces > 0 ? parseFloat(roundToStep($(this).val())).toFixed(decimalPlaces) : roundToStep($(this).val()) ) : $.inArray(roundToStep(items[ roundToStep( $(this).val() - roundToStep(options.minValue) ) ].value), valuesArray) + roundToStep(options.minValue) ) :
+                    ( decimalPlaces > 0 ? parseFloat(roundToStep(roundToStep( $(this).val() ))).toFixed(decimalPlaces) : roundToStep(roundToStep( $(this).val() )) ) ;
+            // element.find('.noUi-handle').eq(iteration).attr('title', isSingle ? items[handleValue].caption : handleValue);
+						 (showResponseCaptions & isSingle) ? element.find('.noUi-handle').eq(iteration).attr('title', captionsArray[handleValue]) : element.find('.noUi-handle').eq(iteration).attr('title', handleValue);
+
+        }
+
+				let dkObjs = $(this).parents('.sliderContainer').eq(iteration).find('.dk');
+				for (var a = 0; a < dkObjs.length; a++) {
+					$(dkObjs[a]).removeClass('selected');
+				}
+
+
+				if(interconnection){ // (show the handles on slide, not on set)
+					$(this).parents('.controlContainer').find('.slider').eq(iteration).addClass('focused').find('.noUi-handle').show();
+				}
+			});
+
+			if(sliderContainerDiv) sliderContainerDiv.noUiSlider.on('change', function(){
+				if (allowNumericInput && isSingle && dkEnabled) controlInput.value = $.inArray(roundToStep($input.val()), valuesArray);
 			});
 
 			// If allowNumericInput is true the slider is controlled by the numeric input.
@@ -337,9 +341,10 @@
 				$container.find('.dk').removeClass('selected');
 			};
 
-			if ( showMarkers ) {
+			if (sliderContainerDiv)
+			 if ( showMarkers ) {
 				if (stepMarkerText > 1) {
-					$(this).find('.noUiSlider').eq(i).noUiSlider_pips({
+					sliderContainerDiv.noUiSlider.pips({
 						mode: 'count',
 						values: stepMarkerText + 1,
 						format: wNumb({
@@ -351,7 +356,7 @@
 				} else {
 					if (isSingle & showResponseCaptions) {
 						var pipFormats = captionsArray;
-						$(this).find('.noUiSlider').eq(i).noUiSlider_pips({
+						sliderContainerDiv.noUiSlider.pips({
 								mode: 'count',
 								values: (options.maxValue - options.minValue)+1,
 								density: (options.maxValue - options.minValue)/2,
@@ -362,7 +367,7 @@
 								}
 						});
 					} else {
-						$(this).find('.noUiSlider').eq(i).noUiSlider_pips({
+						sliderContainerDiv.noUiSlider.pips({
 								mode: 'count',
 								values: (options.maxValue - options.minValue)+1,
 								density: (options.maxValue - options.minValue)/2,
@@ -375,14 +380,14 @@
 					}
 				}
 
-				$('.noUi-pips-horizontal').css({
-					'left': ($('.noUi-handle').width()/2)+'px',
-					'width': $('.noUiSlider').outerWidth() - $('.noUi-handle').outerWidth()
-				});
-      	$('.noUi-pips-vertical').css({
-					'top': ($('.noUi-handle').height()/2)+'px',
-					'height': $('.noUiSlider').outerHeight() - $('.noUi-handle').outerHeight()
-				});
+				// $('.noUi-pips-horizontal').css({
+				// 	'left': ($('.noUi-handle').width()/2)+'px',
+				// 	'width': $('.noUiSlider').outerWidth() - $('.noUi-handle').outerWidth()
+				// });
+      	// $('.noUi-pips-vertical').css({
+				// 	'top': ($('.noUi-handle').height()/2)+'px',
+				// 	'height': $('.noUiSlider').outerHeight() - $('.noUi-handle').outerHeight()
+				// });
 			}
 
 			if ( isSingle && dkEnabled ) {
