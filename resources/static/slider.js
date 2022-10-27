@@ -774,7 +774,7 @@
 		if ( total_images > 0 ) {
 			$container.find('img').each(function() {
 				var fakeSrc = $(this).attr('src');
-				$("<img/>").css('display', 'none').load(function() {
+				$("<img/>").css('display', 'none').on("load", function() {
 					images_loaded++;
 					if (images_loaded >= total_images) {
                         adjustLabelHeight('.sliderLabel');
