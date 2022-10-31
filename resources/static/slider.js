@@ -1,6 +1,5 @@
 (function ($) {
 	"use strict";
-
 	$.fn.adcSlider = function adcSlider(options) {
 		// (options.isNumeric = ((options.maxValue < options.minValue) & options.isNumeric) ? true : false);
 		(options.width = options.width || 400);
@@ -97,7 +96,7 @@
 		// Check for DK
 		if (items[0].element.attr('id') != undefined) {
 			var DKID = items[0].element.attr('id').replace(/[^0-9]/g, ''),
-				hasDK = ( $('input[name="M' + DKID + ' -1"]').size() > 0 ) ? true : false;
+				hasDK = ( $('input[name="M' + DKID + ' -1"]').length > 0 ) ? true : false;
 			if ( hasDK ) {
 				$('input[name="M' + DKID + ' -1"]').hide().next('span').hide();
 				$('#cpt' + DKID + '_-1').hide();
@@ -421,7 +420,7 @@
             $container.find('.noUi-vertical.noUi-extended .noUi-origin').css({'bottom': -($container.find('.noUi-vertical .noUi-handle').outerHeight()-2)+'px'});
 		}
 
-		$('.noUi-handle').click(function () { $(this).parents('.slider').addClass('focused'); });
+		$('.noUi-handle').on("click", function () { $(this).parents('.slider').addClass('focused'); });
 		//$container.delegate('.responseItem', 'click'
 		// If showValue then show on handle
 		for ( var i=0; i<items.length; i++ ) {
@@ -456,7 +455,7 @@
 			}
 		}
 
-		$( window ).resize(function() {
+		$( window ).on("resize", function() {
 			$('.sliderLabel').outerHeight('');
 			layoutAdjust();
 		});
@@ -622,7 +621,7 @@
         adjustLabelHeight('.sliderLabel');
 
 		// Remove focus when not clicking on slider
-		$(document).click(function(e) {
+		$(document).on("click", function(e) {
 
 			if ( !($(e.target).hasClass('noUi-base') || $(e.target).hasClass('noUi-origin') || $(e.target).hasClass('noUiSlider') || $(e.target).hasClass('noUi-handle')) ) {
 
@@ -670,7 +669,7 @@
 		}
 
 		// enable keyboard interaction
-		$container.keydown(function( e ) {
+		$container.on("keydown", function( e ) {
 
 			if (!($(e.target).hasClass('otherText')) && !($(e.target).hasClass('numInput'))) {
 
@@ -775,7 +774,7 @@
 		if ( total_images > 0 ) {
 			$container.find('img').each(function() {
 				var fakeSrc = $(this).attr('src');
-				$("<img/>").css('display', 'none').load(function() {
+				$("<img/>").css('display', 'none').on("load", function() {
 					images_loaded++;
 					if (images_loaded >= total_images) {
                         adjustLabelHeight('.sliderLabel');

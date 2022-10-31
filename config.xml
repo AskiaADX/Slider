@@ -7,8 +7,8 @@
   <info>
     <name>Slider</name>
     <guid>75419bde-c158-45fe-a9b7-68cd4c6bb9b0</guid>
-    <version>4.4.2</version>
-    <date>2022-06-12</date>
+    <version>4.5.1</version>
+    <date>2022-10-28</date>
     <description><![CDATA[]]></description>
     <company>Askia</company>
     <author><![CDATA[Paul Ferreira <paulf@askia.com>,	  Thibault Piriou <thibault@askia.com>	  Jérôme Duparc <jeromed@askia.com>	  Stephen Bronnec <stephen@askia.com>   Prabath Gamage <prabath@askia.com>]]></author>
@@ -58,7 +58,7 @@
             <![endif]-->
         ]]></yield>
       </content>
-      <content fileName="jquery-1.11.2.min.js" type="javascript" mode="static" position="head" />
+      <content fileName="jquery-3.6.0.min.js" type="javascript" mode="static" position="head" />
       <content fileName="jquery.nouislider.min.js" type="javascript" mode="static" position="head" />
       <content fileName="jquery.nouislider.all.min.js" type="javascript" mode="static" position="head" />
       <content fileName="slider.js" type="javascript" mode="static" position="head" />
