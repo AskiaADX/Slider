@@ -12,8 +12,8 @@
 		(options.unitStep = options.unitStep || 1);
 		(options.stepMarkerText = options.stepMarkerText || 1);
 		(options.sliderDirection = options.sliderDirection || "ltr");
-        (options.connect = options.connect || false);
-        (options.currentQuestion = options.currentQuestion || '');
+    (options.connect = options.connect || false);
+    (options.currentQuestion = options.currentQuestion || '');
 
 		// Delegate .transition() calls to .animate() if the browser can't do CSS transitions.
 		if (!$.support.transition) { $.fn.transition = $.fn.animate; }
@@ -36,9 +36,9 @@
 			rightLabelText = Boolean(options.rightLabelText),
 			displayLabelText = (options.displayLabelText === "block") ? true : false,
 			labelPlacement = options.labelPlacement,
-            showTooltips = Boolean(options.showTooltips),
+      showTooltips = Boolean(options.showTooltips),
 			showMarkers = Boolean(options.showMarkers),
-            showMarkerText = Boolean(options.showMarkerText),
+      showMarkerText = Boolean(options.showMarkerText),
 			interconnection = Boolean(options.interconnection),
 			sliderOrientation = options.sliderOrientation,
 			valuesArray = new Array(),
@@ -50,7 +50,7 @@
 			leftHandleText = (options.handleTextPosition === "left") ? options.handleText : "",
 			rightHandleText = (options.handleTextPosition === "right") ? options.handleText : "",
 			images_loaded = 0,
-            decimalPlaces = options.decimalPlaces,
+      decimalPlaces = options.decimalPlaces,
 			sliderHandleStartPosition = options.sliderHandleStartPosition,
 			startPosition = (parseFloat(options.intermediateValue)),
 			allowNumericInput = Boolean(options.allowNumericInput);

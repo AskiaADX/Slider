@@ -34,4 +34,4 @@ gruntfile.js
 
 # TMP #
 ################
-Slider.tmp/
+*.tmp/
