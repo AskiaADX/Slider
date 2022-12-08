@@ -91,3 +91,4 @@ v4.0.0      - Non-selectable headers
   v4.5.0    - Update the noUiSlider plugin
             - jQuery update
     v4.5.1  - Fixed jquery bug on single-loops
+    v4.5.2  - Fixed handleValue is undefined when isInLoop enabled

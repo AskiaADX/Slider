@@ -21,6 +21,6 @@ For i = 1 To ar.Count
 	ENDIF
 	%}
 	//{element : $('#{%= inputName%}'), value :  avR[i].inputValue(), allValues : "{%= allValues%}", caption : "{%= ar[i].Caption %}"}{%= On(i < ar.Count, ",", "") %}
-	{element : $(), value : 0, allValues : "{%= allValues%}", allCaptions : "{%=allCaptions %}", caption : "{%= ar[i].Caption %}"}{%= On(i < ar.Count, ",", "") %}
+	{element : $("{%= elemid %}"), value : 0, allValues : "{%= allValues%}", allCaptions : "{%=allCaptions %}", caption : "{%= ar[i].Caption %}"}{%= On(i < ar.Count, ",", "") %}
 
 {% Next %}
