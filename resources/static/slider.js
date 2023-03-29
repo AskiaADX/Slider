@@ -78,6 +78,8 @@
 					controlInput,
 						items = options.items;
 
+		console.log(items);
+		
 		if (allowNumericInput && isSingle && dkEnabled) controlInput = document.querySelector("#sliderInput_" + items[0].element.attr('id'));
 
 			var headerList = document.querySelectorAll('.headerLabel');
