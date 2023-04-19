@@ -92,3 +92,4 @@ v4.0.0      - Non-selectable headers
             - jQuery update
     v4.5.1  - Fixed jquery bug on single-loops
     v4.5.2  - Fixed handleValue is undefined when isInLoop enabled
+    v4.5.3  - Fixed - single-loop breaks when maxvisibleiterations are given
