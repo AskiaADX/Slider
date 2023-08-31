@@ -173,14 +173,14 @@ For j = 1 To ar.Count
                  {% IF dkEnabled = "1" Then %}
                     <tr valign="middle" class="sliderDK">
                         <td colspan="{%= labelCount + 1 %}" style="padding-top:10px;" align="{%= CurrentADC.PropValue("dkPosition") %}" class="sliderDK">
-														{% IF showResponseCaptions = "1" Then %}
-																{% For i = 1 To optArr.Count %}
-																	<div class="dk" data-value="{%= chr[optArr[i].ToNumber()].inputValue()%}">{%:=chr[optArr[i].ToNumber()].Caption %}</div>
-																{% Next i %}
-														{% Else %}
-																<div class="dk" data-value="{%= chr[CurrentQuestion.AvailableResponses.Count].inputValue() %}">{%:= CurrentADC.PropValue("dkText")%}</div>
-														{% EndIF %}
-												</td>
+                            {% IF showResponseCaptions = "1" Then %}
+                                    {% For i = 1 To optArr.Count %}
+                                        <div class="dk" data-value="{%= chr[optArr[i].ToNumber()].inputValue()%}">{%:=chr[optArr[i].ToNumber()].Caption %}</div>
+                                    {% Next i %}
+                            {% Else %}
+                                    <div class="dk" data-value="{%= chr[CurrentQuestion.AvailableResponses.Count].inputValue() %}">{%:= CurrentADC.PropValue("dkText")%}</div>
+                            {% EndIF %}
+                        </td>
                     </tr>
                 {% EndIF %}
 
@@ -270,14 +270,14 @@ For j = 1 To ar.Count
             {% IF dkEnabled = "1" Then %}
                 <tr valign="middle" class="sliderDK">
                     <td colspan="{%= labelCount + 1 %}" style="padding-top:10px;" align="{%= CurrentADC.PropValue("dkPosition") %}" class="sliderDK">
-												{% IF showResponseCaptions = "1" Then %}
-														{% For i = 1 To optArr.Count %}
-															<div class="dk" data-value="{%= chr[optArr[i].ToNumber()].inputValue()%}">{%:=chr[optArr[i].ToNumber()].Caption %}</div>
-														{% Next i %}
-												{% Else %}
-														<div class="dk" data-value="{%= chr[CurrentQuestion.AvailableResponses.Count].inputValue() %}">{%:= CurrentADC.PropValue("dkText")%}</div>
-												{% EndIF %}
-										</td>
+                        {% IF showResponseCaptions = "1" Then %}
+                                {% For i = 1 To optArr.Count %}
+                                    <div class="dk" data-value="{%= chr[optArr[i].ToNumber()].inputValue()%}">{%:=chr[optArr[i].ToNumber()].Caption %}</div>
+                                {% Next i %}
+                        {% Else %}
+                                <div class="dk" data-value="{%= chr[CurrentQuestion.AvailableResponses.Count].inputValue() %}">{%:= CurrentADC.PropValue("dkText")%}</div>
+                        {% EndIF %}
+                    </td>
                 </tr>
             {% EndIF %}
 
@@ -435,14 +435,14 @@ For j = 1 To ar.Count
                  {% IF dkEnabled = "1" Then %}
                     <tr valign="middle" class="sliderDK">
                         <td colspan="{%= labelCount + 1 %}" style="padding-top:10px;" align="{%= CurrentADC.PropValue("dkPosition") %}" class="sliderDK">
-														{% IF showResponseCaptions = "1" Then %}
-																{% For i = 1 To optArr.Count %}
-																	<div class="dk" data-value="{%= ar[optArr[i].ToNumber()].inputValue()%}">{%:=ar[optArr[i].ToNumber()].Caption %}</div>
-																{% Next i %}
-														{% Else %}
-																<div class="dk" data-value="{%= ar[CurrentQuestion.AvailableResponses.Count].inputValue() %}">{%:= CurrentADC.PropValue("dkText")%}</div>
-														{% EndIF %}
-												</td>
+                            {% IF showResponseCaptions = "1" Then %}
+                                    {% For i = 1 To optArr.Count %}
+                                        <div class="dk" data-value="{%= ar[optArr[i].ToNumber()].inputValue()%}">{%:=ar[optArr[i].ToNumber()].Caption %}</div>
+                                    {% Next i %}
+                            {% Else %}
+                                    <div class="dk" data-value="{%= ar[CurrentQuestion.AvailableResponses.Count].inputValue() %}">{%:= CurrentADC.PropValue("dkText")%}</div>
+                            {% EndIF %}
+                        </td>
                     </tr>
                 {% EndIF %}
 
