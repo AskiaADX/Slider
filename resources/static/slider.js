@@ -335,7 +335,7 @@
 				$container.find('.dk').removeClass('selected');
 			};
 
-			if ( showMarkers ) {
+			if (showMarkers) {
 				if (stepMarkerText > 1) {
 					$(this).find('.noUiSlider').eq(i).noUiSlider_pips({
 						mode: 'count',
@@ -347,25 +347,43 @@
 						})
 					});
 				} else {
-					$(this).find('.noUiSlider').eq(i).noUiSlider_pips({
-						mode: 'count',
-						values: (options.maxValue - options.minValue)+1,
-						density: (options.maxValue - options.minValue)/2,
-						format: wNumb({
-							decimals: decimalPlaces,
-							prefix: leftHandleText,
-							postfix: rightHandleText
-						})
-					});
+					// use captions when single slider + response captions
+					if (isSingle && showResponseCaptions) {
+						var pipFormats = captionsArray;
+
+						$(this).find('.noUiSlider').eq(i).noUiSlider_pips({
+							mode: 'count',
+							values: (options.maxValue - options.minValue) + 1,
+							density: (options.maxValue - options.minValue) / 2,
+							format: {
+								to: function (a) {
+									return pipFormats[a];
+								}
+							}
+						});
+					} else {
+						// default numeric labels
+						$(this).find('.noUiSlider').eq(i).noUiSlider_pips({
+							mode: 'count',
+							values: (options.maxValue - options.minValue) + 1,
+							density: (options.maxValue - options.minValue) / 2,
+							format: wNumb({
+								decimals: decimalPlaces,
+								prefix: leftHandleText,
+								postfix: rightHandleText
+							})
+						});
+					}
 				}
 
 				$('.noUi-pips-horizontal').css({
-					'left': ($('.noUi-handle').width()/2)+'px',
-					'width': $('.noUiSlider').outerWidth() - $('.noUi-handle').outerWidth()
+					left: ($('.noUi-handle').width() / 2) + 'px',
+					width: $('.noUiSlider').outerWidth() - $('.noUi-handle').outerWidth()
 				});
-		      	$('.noUi-pips-vertical').css({
-					'top': ($('.noUi-handle').height()/2)+'px',
-					'height': $('.noUiSlider').outerHeight() - $('.noUi-handle').outerHeight()
+
+				$('.noUi-pips-vertical').css({
+					top: ($('.noUi-handle').height() / 2) + 'px',
+					height: $('.noUiSlider').outerHeight() - $('.noUi-handle').outerHeight()
 				});
 			}
 
