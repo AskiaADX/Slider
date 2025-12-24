@@ -357,7 +357,7 @@
 							density: (options.maxValue - options.minValue) / 2,
 							format: {
 								to: function (a) {
-									return pipFormats[a];
+									return pipFormats[a - options.minValue];
 								}
 							}
 						});
