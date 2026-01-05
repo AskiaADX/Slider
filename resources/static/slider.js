@@ -266,20 +266,37 @@
 				},
 				slide : function() {
 					if ( isInLoop ) { iteration = $(this).parents('.sliderContainer').data('iteration'); }
+						// --- FIX: derive handle index from LIVE slider value ---
+						var sliderValue = roundToStep($(this).val());
+						var index = sliderValue - roundToStep(options.minValue);
+
+						// Safety guard
+						if (index < 0) index = 0;
+						if (index >= captionsArray.length) index = captionsArray.length - 1;
+
+						// Determine what to display on the handle
+						var displayValue;
+						if (isSingle && showResponseCaptions) {
+    						displayValue = captionsArray[index];
+						} else {
+    						displayValue = sliderValue;
+						}
+
 					if (showValue) {
 						var handleText,
 						element = $(this).parents('.controlContainer'),
-							handleValue = isSingle ?
-								( isInLoop ? ( decimalPlaces > 0 ? parseFloat(roundToStep($(this).val())).toFixed(decimalPlaces) : roundToStep($(this).val()) ) : $.inArray(roundToStep(items[ roundToStep( $(this).val() - roundToStep(options.minValue) ) ].value), valuesArray) + roundToStep(options.minValue) )
-								: ( decimalPlaces > 0 ? parseFloat(roundToStep(roundToStep( $(this).val() ))).toFixed(decimalPlaces) : roundToStep(roundToStep( $(this).val() )) ) ;
-							//handleValue = isSingle ? $.inArray(parseInt($(this).val()), valuesArray) + parseInt(options.minValue) : parseInt($(this).val());
+													
+								//handleValue = isSingle ?
+								//( isInLoop ? ( decimalPlaces > 0 ? parseFloat(roundToStep($(this).val())).toFixed(decimalPlaces) : roundToStep($(this).val()) ) : $.inArray(roundToStep(items[ roundToStep( $(this).val() - roundToStep(options.minValue) ) ].value), valuesArray) + roundToStep(options.minValue) )
+								//: ( decimalPlaces > 0 ? parseFloat(roundToStep(roundToStep( $(this).val() ))).toFixed(decimalPlaces) : roundToStep(roundToStep( $(this).val() )) ) ;
+								
 
 						element.find('.handleValue').eq(iteration).css('padding-top', '');
-						element.find('.noUi-handle').eq(iteration).html( "<div class='handleValue'>" + leftHandleText + "" + (handleText = isSingle ? (showResponseCaptions ? captionsArray[handleValue] : handleValue) : handleValue) + "" + rightHandleText + "</div>" );
+						element.find('.noUi-handle').eq(iteration).html( "<div class='handleValue'>" + leftHandleText + displayValue + rightHandleText + "</div>" );
 						var topAdj = Math.ceil( ( element.find('.noUi-handle').eq(iteration).height() - element.find('.handleValue').eq(iteration).outerHeight() ) * 0.5 );
 						element.find('.handleValue').eq(iteration).css('padding-top', topAdj + 'px');
 
-						if (allowNumericInput && isSingle && dkEnabled) controlInput.value = handleValue;
+						if (allowNumericInput && isSingle && dkEnabled && !showResponseCaptions) controlInput.value = sliderValue;
 					}
 					if (showTooltips) {
 						var element = $(this).parents('.controlContainer'),
