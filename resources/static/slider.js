@@ -284,7 +284,7 @@
 
 					if (showValue) {
 						var handleText,
-						element = $(this).parents('.controlContainer'),
+						element = $(this).parents('.controlContainer');
 													
 								//handleValue = isSingle ?
 								//( isInLoop ? ( decimalPlaces > 0 ? parseFloat(roundToStep($(this).val())).toFixed(decimalPlaces) : roundToStep($(this).val()) ) : $.inArray(roundToStep(items[ roundToStep( $(this).val() - roundToStep(options.minValue) ) ].value), valuesArray) + roundToStep(options.minValue) )
