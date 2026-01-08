@@ -266,15 +266,15 @@
 				},
 				slide : function() {
 					if ( isInLoop ) { iteration = $(this).parents('.sliderContainer').data('iteration'); }
-						// --- FIX: derive handle index from LIVE slider value ---
+						
 						var sliderValue = roundToStep($(this).val());
 						var index = sliderValue - roundToStep(options.minValue);
 
-						// Safety guard
+						
 						if (index < 0) index = 0;
 						if (index >= captionsArray.length) index = captionsArray.length - 1;
 
-						// Determine what to display on the handle
+						
 						var displayValue;
 						if (isSingle && showResponseCaptions) {
     						displayValue = captionsArray[index];
@@ -284,12 +284,7 @@
 
 					if (showValue) {
 						var handleText,
-						element = $(this).parents('.controlContainer');
-													
-								//handleValue = isSingle ?
-								//( isInLoop ? ( decimalPlaces > 0 ? parseFloat(roundToStep($(this).val())).toFixed(decimalPlaces) : roundToStep($(this).val()) ) : $.inArray(roundToStep(items[ roundToStep( $(this).val() - roundToStep(options.minValue) ) ].value), valuesArray) + roundToStep(options.minValue) )
-								//: ( decimalPlaces > 0 ? parseFloat(roundToStep(roundToStep( $(this).val() ))).toFixed(decimalPlaces) : roundToStep(roundToStep( $(this).val() )) ) ;
-								
+						element = $(this).parents('.controlContainer');													
 
 						element.find('.handleValue').eq(iteration).css('padding-top', '');
 						element.find('.noUi-handle').eq(iteration).html( "<div class='handleValue'>" + leftHandleText + displayValue + rightHandleText + "</div>" );
