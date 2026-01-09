@@ -93,4 +93,6 @@ v4.5.2  - Fixed handleValue is undefined when isInLoop enabled
 v4.5.3  - Fixed - single-loop breaks when maxvisibleiterations are given
 v4.5.4  - Fixed - slider right-label hides when small screens
 v4.5.5  - Fixed - issue on single Qs when the min-value is greater than 1 and DK enabled
-        - Fixed
+v4.5.6  - Fixed - issue with showResponseCaptions not returning correct values on markers
+v4.5.7  - Fixed - issue with handlevalue not being properly updated 
+v4.5.8  - Fixed - issue with multiple DK items breaking captionsArray index 
