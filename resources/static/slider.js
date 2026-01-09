@@ -119,12 +119,18 @@
 				}
 			}
 
-			// options.maxValue = isInLoop ? parseInt(options.minValue) + (allValuesArray.length - 1) : parseInt(options.minValue) + (items.length - 1);
+			// Build slider scale arrays (exclude DK, DK options must be at the end of the array)
+			var dkCount = (dkEnabled && dkArr && dkArr.length) ? dkArr.length : 0;
+
+			var scaleValues = dkCount ? valuesArray.slice(0, valuesArray.length - dkCount) : valuesArray.slice();
+			var scaleCaptions = dkCount ? captionsArray.slice(0, captionsArray.length - dkCount) : captionsArray.slice();
+
+			
             unitStep = 1;
 			stepMarkerText = 1;
 
 			if ( dkEnabled ) {
-				// options.maxValue = isInLoop ?  options.maxValue : parseInt(options.maxValue) - dkArr.length;
+				
 				if(dkArr.length > 1){
 					for (var i = 0; i < dkArr.length; i++) {
 						$($(this).find('.dk')[i]).attr('data-value',valuesArray[dkArr[i] - 1]);
@@ -238,7 +244,7 @@
 						element = $(this).parents('.controlContainer'),
 							handleValue = isSingle ? $.inArray(roundToStep($input.val()), valuesArray) + roundToStep(options.minValue) : (decimalPlaces > 0 ? parseFloat(roundToStep($input.val())).toFixed(decimalPlaces) : roundToStep($input.val()) );
 						element.find('.handleValue').eq(iteration).css('padding-top', '');
-						element.find('.noUi-handle').eq(iteration).html( "<div class='handleValue'>" + leftHandleText + "" + (handleText = isSingle ? (showResponseCaptions ? captionsArray[handleValue - dkArr.length] : handleValue) : handleValue) + "" + rightHandleText + "</div>" );
+						element.find('.noUi-handle').eq(iteration).html( "<div class='handleValue'>" + leftHandleText + "" + (handleText = isSingle ? (showResponseCaptions ? scaleCaptions[handleValue - options.minValue] : handleValue) : handleValue) + "" + rightHandleText + "</div>" );
 						var topAdj = Math.ceil( ( element.find('.noUi-handle').eq(iteration).height() - element.find('.handleValue').eq(iteration).outerHeight() ) * 0.5 );
 						element.find('.handleValue').eq(iteration).css('padding-top', topAdj + 'px');
 					}
@@ -246,7 +252,7 @@
 						var element = $(this).parents('.controlContainer'),
 						handleValue = isSingle ? $.inArray(roundToStep($input.val()), valuesArray) + roundToStep(options.minValue) : (decimalPlaces > 0 ? parseFloat(roundToStep($input.val())).toFixed(decimalPlaces) : roundToStep($input.val()) );
 						if (showResponseCaptions & isSingle) {
-							element.find('.noUi-handle').eq(iteration).attr('title', captionsArray[handleValue]);
+							element.find('.noUi-handle').eq(iteration).attr('title', scaleCaptions[handleValue - options.minValue]);
 						} else {
 							element.find('.noUi-handle').eq(iteration).attr('title', handleValue);
 						}
@@ -272,12 +278,12 @@
 
 						
 						if (index < 0) index = 0;
-						if (index >= captionsArray.length) index = captionsArray.length - 1;
+						if (index >= scaleCaptions.length) index = scaleCaptions.length - 1;
 
 						
 						var displayValue;
 						if (isSingle && showResponseCaptions) {
-    						displayValue = captionsArray[index];
+    						displayValue = scaleCaptions[index];
 						} else {
     						displayValue = sliderValue;
 						}
@@ -294,11 +300,13 @@
 						if (allowNumericInput && isSingle && dkEnabled && !showResponseCaptions) controlInput.value = sliderValue;
 					}
 					if (showTooltips) {
-						var element = $(this).parents('.controlContainer'),
-							handleValue = isSingle ?
-								( isInLoop ? ( decimalPlaces > 0 ? parseFloat(roundToStep($(this).val())).toFixed(decimalPlaces) : roundToStep($(this).val()) ) : $.inArray(roundToStep(items[ roundToStep( $(this).val() - roundToStep(options.minValue) ) ].value), valuesArray) + roundToStep(options.minValue) ) :
-								( decimalPlaces > 0 ? parseFloat(roundToStep(roundToStep( $(this).val() ))).toFixed(decimalPlaces) : roundToStep(roundToStep( $(this).val() )) ) ;
-						(showResponseCaptions & isSingle) ? element.find('.noUi-handle').eq(iteration).attr('title', captionsArray[handleValue]) : element.find('.noUi-handle').eq(iteration).attr('title', handleValue);
+    					var element = $(this).parents('.controlContainer');
+
+    					if (isSingle && showResponseCaptions) {
+        					element.find('.noUi-handle').eq(iteration).attr('title', scaleCaptions[index]);
+    					} else {
+        					element.find('.noUi-handle').eq(iteration).attr('title', sliderValue);
+    					}
 					}
 
 					let dkObjs = $(this).parents('.sliderContainer').eq(iteration).find('.dk');
@@ -361,7 +369,7 @@
 				} else {
 					// use captions when single slider + response captions
 					if (isSingle && showResponseCaptions) {
-						var pipFormats = captionsArray;
+						var pipFormats = scaleCaptions;
 
 						$(this).find('.noUiSlider').eq(i).noUiSlider_pips({
 							mode: 'count',
