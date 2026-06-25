@@ -7,7 +7,7 @@
   <info>
     <name>Slider</name>
     <guid>75419bde-c158-45fe-a9b7-68cd4c6bb9b0</guid>
-    <version>4.5.8</version>
+    <version>4.5.9</version>
     <date>2023-08-30</date>
     <description><![CDATA[]]></description>
     <company>Askia</company>
@@ -24,7 +24,7 @@
     </constraints>
   </info>
   <outputs defaultOutput="fallback">
-    <output id="fallback" manageLoopDepth="1">
+    <output id="fallback" manageLoopDepth="On(CurrentADC.PropValue("IsInLoop").ToNumber(),1,0)">
       <description><![CDATA[Fallback when the browser doesnt support Javascript]]></description>
       <condition><![CDATA[Not(Browser.Support("javascript"))]]></condition>
       <content fileName="default.css" type="css" mode="static" position="head" />
@@ -34,7 +34,7 @@
       <content fileName="single_loop.html" type="html" mode="dynamic" position="none" />
       <content fileName="default.html" type="html" mode="dynamic" position="placeholder" />
     </output>
-    <output id="standard" manageLoopDepth="1">
+    <output id="standard" manageLoopDepth="On(CurrentADC.PropValue("IsInLoop").ToNumber(),1,0)">
       <description><![CDATA[
         Output when the browser support Javascript
       ]]></description>
