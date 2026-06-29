@@ -96,3 +96,4 @@ v4.5.5  - Fixed - issue on single Qs when the min-value is greater than 1 and DK
 v4.5.6  - Fixed - issue with showResponseCaptions not returning correct values on markers
 v4.5.7  - Fixed - issue with handlevalue not being properly updated 
 v4.5.8  - Fixed - issue with multiple DK items breaking captionsArray index 
+v4.5.9  - Fixed - issue with IsInLoop property not being recognized in v6 screens
